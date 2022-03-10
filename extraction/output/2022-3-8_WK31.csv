@@ -1,0 +1,98 @@
+,Title,Text,ID,Score,Comments,URL,Comment,Date
+0,Every Freaking Time,,t5tp9p,213,15,https://www.reddit.com/r/dataengineering/comments/t5tp9p/every_freaking_time/,"Huh, it says here YOUR product cures cancer, while your competitor's is a fraud that will lead to ethnic cleansing.  Well then . . .",2022-3-8_WK31
+1,Wtf is a datalake?,"When I first heard the term used a few years ago I thought it was some advanced highly integrated composition of AI/ML techniques, data, and datastores.    Now, as I decided to learn a little bit about them a datalake seems to be nothing more than a giant bucket for you to toss your ""similiar"" data into.
+
+By the latter, that would mean my  designated storage of 16TBs,  which consists of nothing but horse porn, is a data Lake.
+
+So can someone please explain what a data Lake is, what it does, and how it's used?
+
+EDIT:  Question answered.  Y'all rock, so glad I found this sub.",t4kz8u,177,63,https://www.reddit.com/r/dataengineering/comments/t4kz8u/wtf_is_a_datalake/,"Your horse porn storage very well could be a data lake. All a data lake is from my understanding is a copy of raw data (sometimes some cleaned data) involved in the pipeline.
+
+The main use case for them is to store data from sources so you don't always need to connect back to the source. Storage is pretty cheap in cloud architectures. It's pretty easy to just dump files from a variety of sources there and then use that for further refinement and transformation.
+
+An example I've used one for is web scraping. I usually just dump the raw html in a bucket and work from there. If I send too many requests to the sites they sometimes block me. This allows me to store an updated copy for my dev without sending too many requests.",2022-3-8_WK31
+2,Anyone noticing a trend where Data Engineer jobs are advertised but the role is really BI or Analyst work?,"I’ve seen a few jobs now that either in the ad or on the phone call are very obviously not about building pipelines or infrastructure but straight up building reports in tableau? I’m talking 90% of your time is spent in tableau.
+
+I’m assuming these places were struggling to get people for these roles which is why they’ve jazzed it up a bit. But wondering if anyone else has experienced this?",t5dfo0,158,90,https://www.reddit.com/r/dataengineering/comments/t5dfo0/anyone_noticing_a_trend_where_data_engineer_jobs/,I've seen a Data Analyst job turn out to be Data Engineering,2022-3-8_WK31
+3,Data Engineering's books for beginners,"I have been trying to read Designing Data Intensive Applications and Kimball's Data Warehouse, but I struggled to understand most of its contents. I wondered if there are any other books/resources that I can learn first to make these 2 books easier to read in the future?  
+
+
+A little about me:  
+Data Analyst (4 months in)  
+Will become a Data Engineer (in 1 month)  
+Intermediate in Python + SQL  
+Extremely new to data modelling   
+STEM but not a CS background  
+Read and understood Data Pipelines Pocket Reference  
+I really want to understand and learn from these 2 books, but I have been struggling to achieve this goal. Please feel free to recommend me any other beginner's resources that have helped you to become a better DE!",t868ar,90,15,https://www.reddit.com/r/dataengineering/comments/t868ar/data_engineerings_books_for_beginners/,"You can find a list of community submitted learning resources here: https://dataengineering.wiki/Learning+Resources
+
+*I am a bot, and this action was performed automatically. Please [contact the moderators of this subreddit](/message/compose/?to=/r/dataengineering) if you have any questions or concerns.*",2022-3-8_WK31
+4,What made you struggle as a beginner?,"I am writing several “Explain like I am five” blogs and would love to feature some of the community’s questions.
+
+What were the most difficult concepts when you were starting out?",t7hdf9,77,41,https://www.reddit.com/r/dataengineering/comments/t7hdf9/what_made_you_struggle_as_a_beginner/,"Not DE concepts, but general things that I think are equally if not more important struggles that beginners commonly face:
+
+* Knowing when to ask for help solving something vs spending a ton of time banging one's head against the wall.  This was something I struggled with and still do to a certain extent, mostly because my first job in data was one where I was the only person in any real data capacity, so I had no one to turn to.
+* Not working on things that help stakeholders create value from the data.  Make sure you're aligned with that the business teams are looking for.  
+* Again, value related, but focusing too much on ""techy"" solutions vs what reasonably solves a problem.  When I first started out I spent hours refactoring a stored procedure to reduce the runtime from 2-3 minutes to like \~30 seconds.  This job ran once per day overnight.  My manager was happy with the initiative, but it was unnecessary performance tuning.",2022-3-8_WK31
+5,Can Data Engineers Stay Competitive Without Becoming Software Engineers?,"This has been a question on my mind recently. As I kicked off a multi-month job search, I found that the majority of job listings require \*x-years\* of experience ""delivering production software..."" Obviously we'll probably be able to find Data Engineering roles that only require SQL and some tooling (AirFlow, DBT, etc.) for some years to come.
+
+I'd love to hear opinions from those that have been in the industry for a few years. Do you see the Data Engineer market shifting towards an extension of Software Engineering? Do you plan to stick to SQL and tooling?
+
+I weigh the pros and cons of both routes here: [https://dataexpert.medium.com/data-engineering-career-path-to-code-or-to-no-code-1f09cd30552a](https://dataexpert.medium.com/data-engineering-career-path-to-code-or-to-no-code-1f09cd30552a)",t6mn8s,78,63,https://www.reddit.com/r/dataengineering/comments/t6mn8s/can_data_engineers_stay_competitive_without/,The more experience I get in data engineering the more comfortable I have to get managing system resources to accomplish what I'm being asked to do. So it definitely feels like it's trending that way to me. I think more DevOps than pure software engineering would be the best way to stay competitive though.,2022-3-8_WK31
+6,Learning basics Python and SQL: what's next?,"Hi, folks of reddit! 
+
+I currently finished the Practical SQL (Anthony DeBarros) and Python Crash Course (Eric Matthes). Both great introdutory books to SQL and Python, but I don't know where to go next. Should I learn about ETL/ELT? Or should I learn how to use API's and get to know more about pipelines?   
+
+
+What to do after studying Python and SQL fundamentals? 
+
+Learned so far: 
+
+SQL: 
+
+1. Select, From, Where, Group By, Order By 
+2. Subqueries, CTE, Index
+3. Regular expressions
+
+Python: 
+
+1. Variables, algebraic expressions 
+2. Lists, tuples, dictionaries 
+3. For and While loops
+4. If, else, elif statements 
+5. Functions   
+
+
+Should I study more deeply the topics above to get a solid knowledge before getting into Data Warehousing, Pipelines, etc?",t6xni1,71,26,https://www.reddit.com/r/dataengineering/comments/t6xni1/learning_basics_python_and_sql_whats_next/,"You can find a list of community submitted learning resources here: https://dataengineering.wiki/Learning+Resources
+
+*I am a bot, and this action was performed automatically. Please [contact the moderators of this subreddit](/message/compose/?to=/r/dataengineering) if you have any questions or concerns.*",2022-3-8_WK31
+7,How do prepare for programming interviews as a data engineer?,"I just focus on the SQL questions on Leetcode, however practicing programming questions in Python seems less defined.
+
+
+
+I have Leetcode premium, so I can just use the company-specific questions.  However, I feel like they might be for software engineers more than data engineers.
+
+
+
+
+What's your process for programming interview prep?",t8mzpq,65,13,https://www.reddit.com/r/dataengineering/comments/t8mzpq/how_do_prepare_for_programming_interviews_as_a/,"In the two coding challenges I have had so far (when interviewing for Junior DE positions), the python part was very much just a software engineering styled task. I had to write a function that would read the occurrences of specific character patterns from an input string and return a count of the number of times each pattern was found. In the other challenge I had to write a function that took a json as input as well as a list of item names. The function had to find if the the item names where present within some nested areas of the JSON and return the parent key if found.   
+
+
+So I would say practice the basics of Python (manipulating strings, working with dictionaries, lists, reading files, etc.) and if you have a good grasp on those there is nothing that can go wrong.",2022-3-8_WK31
+8,Dbt Tests Vs Great Expectations,"Hello,   
+Can anyone explain to me the difference between dbt tests and great expectations, what's the perimeter of each one in a pipeline, and how can I get most of them both.  
+   
+If anyone uses them in production , do you mind share your setup.
+
+Thank you",t6lpul,64,15,https://www.reddit.com/r/dataengineering/comments/t6lpul/dbt_tests_vs_great_expectations/,"DBT actually has a great expectations inspired plugin that you can use within it. The built-in functions are better for relational and basic database constraint type of checking. It can also help catch potential problems with data loads.
+
+DBT_Expectations can be great for some statistical analysis.
+
+Then you have the elementary plugin as well that can help you with source monitoring.
+
+Really I wouldn't think of the two as opposing or which is better when you can use both to help monitor data quality. They do different things, with some minor overlap.",2022-3-8_WK31
+9,"Switching to a easier, less stressful job for lower pay","So I’m making about 150k, but I’m working 8-10 hours a day and usually some on the weekends too.     
+
+I’m almost positive I can land higher paying jobs as well.   But at this point I feel like i would rather work half the amount and make half.  
+
+Has anyone tried this?   I feel like it sounds good In theory.   In reality I’d wind up just taking a huge pay cut for a tiny reduction in time/stress.",t604j1,56,67,https://www.reddit.com/r/dataengineering/comments/t604j1/switching_to_a_easier_less_stressful_job_for/,I've found that pay is in no way correlated to work load.  I try and find jobs with good people that offer flexible work schedules. Pay is absolutely a secondary factor after a certain minimum.  So yeah find a job that pays about the same that is lower stress you should be able to manage that no problem.,2022-3-8_WK31
