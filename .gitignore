@@ -1,3 +1,11 @@
 venv/
 extraction/secrets/
 notes/secret_notes.txt
+airflow/extraction/pipeline.conf
+airflow/extraction/*.csv
+airflow/dags/__pycache__
+airflow/plugins
+airflow/logs
+airflow/extracts
+airflow/.env
+airflow/.DS_Store

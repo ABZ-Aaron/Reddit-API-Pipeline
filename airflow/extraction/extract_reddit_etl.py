@@ -2,27 +2,31 @@ import praw
 import json
 import pandas as pd
 import datetime
+import configparser
+import pathlib
+import sys
+
+script_path = pathlib.Path(__file__).parent.resolve()
+
+parser = configparser.ConfigParser()
+parser.read(f"{script_path}/pipeline.conf")
+
+SECRET = parser.get("reddit_config", "secret")
+DEVELOPER = parser.get("reddit_config", "developer")
+NAME = parser.get("reddit_config", "name")
+CLIENT_ID = parser.get("reddit_config", "client_id")
 
 # Name output file
 now = datetime.datetime.now()
 day = now.day
 month = now.month
 year = now .year
-week_num = datetime.date(year, day, month).isocalendar()[1]
-output_name = f"{year}-{month}-{day}_WK{week_num}"
+week_num = datetime.date(year, month, day).isocalendar()[1]
+date = f"{year}-{month}-{day}"
 
-## Path of application
-path = "/Users/aaronwright/Documents/Tech/Projects/RedditApp"
-
-# Load in configuration data from our JSON file
-with open(f'{path}/extraction/secrets/secret_reddit.json', 'r') as f:
-  config_data = json.load(f)
-
-# Save our JSON data
-DEVELOPER = config_data['DEVELOPER']
-SECRET = config_data['SECRET']
-NAME = config_data['NAME']
-CLIENT_ID = config_data['CLIENT_ID']
+date = sys.argv[1]
+date = date[:10]
+output_name = date
 
 # Create a PRAW instance
 reddit_read_only = praw.Reddit(client_id=CLIENT_ID,        
@@ -33,12 +37,11 @@ reddit_read_only = praw.Reddit(client_id=CLIENT_ID,
 subreddit = reddit_read_only.subreddit("dataengineering")
 
 # Take top 10 posts of the past week
-posts = subreddit.top('week', limit = 10)
-
+posts = subreddit.top('day', limit = 5)
 # Dictionary to store data
-posts_dict = {"Title" : [],
+posts_dict = {"ID" : [],
+              "Title" : [],
               "Text" : [],
-              "ID" : [],
               "Score" : [],
               "Comments" : [],
               "URL" : [],
@@ -56,7 +59,7 @@ for x, post in enumerate(posts):
     posts_dict["Score"].append(post.score)
     posts_dict["Comments"].append(post.num_comments)
     posts_dict["URL"].append(url)
-    posts_dict["Date"].append(output_name)
+    posts_dict["Date"].append(date)
   
     try:
       posts_dict['Comment'].append(post.comments[0].body)
@@ -65,4 +68,5 @@ for x, post in enumerate(posts):
 
 # Store data to dataframe and save it to CSV file
 top_posts_week = pd.DataFrame(posts_dict)
-top_posts_week.to_csv(f"{path}/extraction/output/{output_name}.csv", index=True)
+top_posts_week = top_posts_week.replace(',','', regex=True)
+top_posts_week.to_csv(f"{script_path}/{output_name}.csv", index = False)
