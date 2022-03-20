@@ -9,3 +9,5 @@ airflow/logs
 airflow/extracts
 airflow/.env
 airflow/.DS_Store
+cloudformation/
+notes/
