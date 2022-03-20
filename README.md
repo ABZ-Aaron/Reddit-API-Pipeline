@@ -4,8 +4,38 @@ This is an independent project put together after completing a DataTalksClub [Bo
 
 It is an ETL pipeline to pull Reddit data from [r/dataengineering](https://www.reddit.com/r/dataengineering/) using Reddit's API and load it into an AWS Data Warehouse.
 
+Due to specifications required, project is more complex than required, with the main purpose being to further develop skills using a variety of tools.
+
+### NOTE: Project is a work in progress.
+
 ## Architecture
 
+In progress...
+
+General process is to:
+
+1. Extract daily Reddit Data and store in AWS S3
+2. Copy daily Reddit data to AWS Redshift
+3. Transform data in Redshift using DBT
+4. Generate Word Cloud in PowerBI
+
+Tools will include:
+
+* DBT
+* Python
+* SQL ~ PostgreSQL
+* AWS Redshift
+* AWS Cloudformation
+* AWS S3
+* PowerBI
+* Airflow
+* Docker
+
+## Introduction
+
+In progress...
+
+To setup this pipeline on your own, work through the following steps.
 
 ## Setup AWS
 
@@ -51,6 +81,16 @@ aws cloudformation delete-stack --stack-name myredshiftstack
 
 In the AWS Console, you can navigate to CloudFormation using the search bar, and check the status of your stack. If you navigate to Redshift using the search bar, you should see your cluster setup.
 
-###
+## Running Docker with Airflow
+
+In progress...
+
+## Setting up DBT
+
+In progress...
+
+## Loading data into PowerBI
+
+In progress...
 
 

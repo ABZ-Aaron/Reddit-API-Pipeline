@@ -1,6 +1,6 @@
 venv/
 extraction/secrets/
-notes/secret_notes.txt
+notes/
 airflow/extraction/pipeline.conf
 airflow/extraction/*.csv
 airflow/dags/__pycache__
@@ -10,4 +10,4 @@ airflow/extracts
 airflow/.env
 airflow/.DS_Store
 cloudformation/
-notes/
+
