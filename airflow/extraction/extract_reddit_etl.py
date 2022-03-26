@@ -1,29 +1,29 @@
-import praw
-import json
-import pandas as pd
-import datetime
 import configparser
+
+import datetime
+
+import pandas as pd
+
 import pathlib
+
+import praw
+
 import sys
 
+# Full path to current directory
 script_path = pathlib.Path(__file__).parent.resolve()
 
+# Parse the configuration file
 parser = configparser.ConfigParser()
 parser.read(f"{script_path}/pipeline.conf")
 
+# Store our configuration variables
 SECRET = parser.get("reddit_config", "secret")
 DEVELOPER = parser.get("reddit_config", "developer")
 NAME = parser.get("reddit_config", "name")
 CLIENT_ID = parser.get("reddit_config", "client_id")
 
-# Name output file
-now = datetime.datetime.now()
-day = now.day
-month = now.month
-year = now .year
-week_num = datetime.date(year, month, day).isocalendar()[1]
-date = f"{year}-{month}-{day}"
-
+# Name of our output file
 date = sys.argv[1]
 date = date[:10]
 output_name = date
@@ -36,8 +36,9 @@ reddit_read_only = praw.Reddit(client_id=CLIENT_ID,
 # Specify subreddit we're interested in
 subreddit = reddit_read_only.subreddit("dataengineering")
 
-# Take top 10 posts of the past week
-posts = subreddit.top('day', limit = 5)
+# Take top 30 posts of the past month
+posts = subreddit.top('month', limit = 30)
+
 # Dictionary to store data
 posts_dict = {"ID" : [],
               "Title" : [],
@@ -46,7 +47,8 @@ posts_dict = {"ID" : [],
               "Comments" : [],
               "URL" : [],
               "Comment" : [],
-              "Date" : []}
+              "DateExecuted" : [],
+              "DatePosted" : []}
 
 # For each post, collect data and store in dictionary
 for x, post in enumerate(posts):
@@ -59,7 +61,8 @@ for x, post in enumerate(posts):
     posts_dict["Score"].append(post.score)
     posts_dict["Comments"].append(post.num_comments)
     posts_dict["URL"].append(url)
-    posts_dict["Date"].append(date)
+    posts_dict["DateExecuted"].append(date)
+    posts_dict["DatePosted"].append(datetime.datetime.fromtimestamp(post.created))
   
     try:
       posts_dict['Comment'].append(post.comments[0].body)
