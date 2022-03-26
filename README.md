@@ -23,7 +23,7 @@ Due to specifications required, project is more complex than required, with the 
 
 ### Expected Output
 
-<img src="https://github.com/ABZ-Aaron/Reddit-API-Pipeline/blob/master/images/dashboard1.png" width=60% height=60%>
+<img src="https://github.com/ABZ-Aaron/Reddit-API-Pipeline/blob/master/images/dashboard2.png" width=60% height=60%>
 
 * Dashboard in PowerBI
 
