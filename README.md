@@ -10,6 +10,8 @@ Due to specifications required, project is more complex than required, with the 
 
 <img src="https://github.com/ABZ-Aaron/Reddit-API-Pipeline/blob/master/images/process.png" width=60% height=60%>
 
+* Architecture of pipeline
+
 ### Process
 
 1. Extract data using [Reddit API](https://www.reddit.com/dev/api/)
@@ -21,7 +23,13 @@ Due to specifications required, project is more complex than required, with the 
 
 ### Expected Output
 
-<img src="https://github.com/ABZ-Aaron/Reddit-API-Pipeline/blob/master/images/dashboard1.pdf" width=60% height=60%>
+<img src="https://github.com/ABZ-Aaron/Reddit-API-Pipeline/blob/master/images/dashboard1.png" width=60% height=60%>
+
+* Dashboard in PowerBI
+
+<img src="https://github.com/ABZ-Aaron/Reddit-API-Pipeline/blob/master/images/dashboard2.png" width=60% height=60%>
+
+* Dashboard with Filter in PowerBI
 ## Introduction
 
 If you would like to set this pipeline up yourself, follow the below steps.
