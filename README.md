@@ -6,13 +6,29 @@ It is an ELT pipeline to extract Reddit data from [r/dataengineering](https://ww
 
 Due to specifications required, project is more complex than required, with the main purpose being to further develop skills using a variety of tools. 
 
-## Architecture
+## Table of Contents
+1. [Architecture](#Architecture)
+2. [Process](#Process)
+3. [Expected Output](#ExpectedOutput)
+4. [Introduction](#Introduction)
+5. [Setup Reddit API](#SetupRedditAPI)
+6. [Setup AWS](#SetupAWS)
+7. [Setup Redshift](#SetupsRedshift)
+8. [Configuration File](#ConfigFile)
+9. [Docker & Airflow](#DockerAirflow)
+10. [DBT](#DBT)
+12. [Data Visualisation](#DataViz)
+13. [The End](#FinalNotes)
+
+---
+
+## Architecture  <a name="Architecture"></a>
 
 <img src="https://github.com/ABZ-Aaron/Reddit-API-Pipeline/blob/master/images/process.png" width=100% height=100%>
 
 * Architecture of pipeline
 
-### Process
+## Process <a name="Process"></a>
 
 1. Extract data using [Reddit API](https://www.reddit.com/dev/api/)
 1. Load into [AWS S3](https://aws.amazon.com/s3/)
@@ -21,7 +37,7 @@ Due to specifications required, project is more complex than required, with the 
 1. Create [PowerBI](https://powerbi.microsoft.com/en-gb/) Dashboard
 1. Orchestrate with [Airflow](https://airflow.apache.org) installed via [Docker](https://www.docker.com)
 
-### Expected Output
+## Expected Output <a name="ExpectedOutput"></a>
 
 <img src="https://github.com/ABZ-Aaron/Reddit-API-Pipeline/blob/master/images/dashboard2.png" width=100% height=100%>
 
@@ -30,10 +46,11 @@ Due to specifications required, project is more complex than required, with the 
 <img src="https://github.com/ABZ-Aaron/Reddit-API-Pipeline/blob/master/images/dashboard1.png" width=100% height=100%>
 
 * Dashboard with Filter in PowerBI
-## Introduction
+
+## Introduction <a name="Introduction"></a>
 
 If you would like to set this pipeline up yourself, follow the below steps.
-## Clone Repo & Setup
+## Clone Repo & Setup <a name="CloneRepo&Setup"></a>
 
 First step is to clone the Reddit App repo which contains files and folder required for this pipeline. Clone this into your home directory:
 
@@ -42,7 +59,7 @@ git clone https://github.com/ABZ-Aaron/Reddit-API-Pipeline.git
 ```
 * Clone git repo
 
-## Reddit API
+## Reddit API <a name="SetupRedditAPI"></a>
 
 To extract Reddit data, we can use it's API (Application Programming Interface). To use this, you'll need to create an `app`. 
 
@@ -50,7 +67,7 @@ To do this, first setup a Reddit account if you don't have one, then navigate [h
 
 Once setup, take a note of the `name` you gave the app, the `App ID`, and the `API Secret Key`.
 
-## Setup AWS
+## Setup AWS <a name="SetupAWS"></a>
 
 We'll be using the cloud to store and transform our Reddit data. In our case, well use Amazon Web Service (AWS) which offers a free tier.
 
@@ -64,7 +81,7 @@ We'll be using the cloud to store and transform our Reddit data. In our case, we
 
     This allows us to control AWS services from the command line interface. We'll need to configure credentials for CLI to use.
 
-## Setup Redshift
+## Setup Redshift <a name="SetupsRedshift"></a>
 
 Redshift is a data warehousing solution offered by AWS. This will be the end destination for our data. We'll first need to setup a Redshift cluster.
 
@@ -93,7 +110,7 @@ aws cloudformation delete-stack --stack-name myredshiftstack
 
 In the AWS Console, you can navigate to CloudFormation using the search bar, and check the status of your stack. If you navigate to Redshift using the search bar, you should also see your cluster setup.
 
-## Configuration File
+## Configuration File <a name="ConfigFile"></a>
 
 Next, you'll need to create a configuration file in the correct folder where you'll store some AWS details:
 
@@ -136,19 +153,19 @@ client_id = XXXXXXXXX
 
 * For the Reddit Config, these are the details you took note of after setting up your Reddit App.
 
-## Running Docker with Airflow
+## Running Docker with Airflow <a name="DockerAirflow"></a>
 
 To orchestrate our pipeline, we'll be using Apache Airflow, which allows us to define [DAGs](https://en.wikipedia.org/wiki/Directed_acyclic_graph). Installing it can be a bit tricky, so for this, we'll install it with Docker. 
 
 Docker as something that allows us to create and maintain containers. These are a bit like a special kind of virtual machine which, in our case, includes everything we need to run Airflow.
 
-### Installing Docker
+### Installing Docker <a name="Docker"></a>
 
 1. First you'll need to install Docker. Follow the instructions [here](https://docs.docker.com/get-docker/), selecting the OS your are currently using, as installation instructions differ between each one.
 
 1. Next, you'll want to install Docker Compose. Find the instructions [here](https://docs.docker.com/compose/install/.) for your OS.
 
-### Running Airflow
+### Running Airflow <a name="Airflow"></a>
 
 To start our pipeline, we'll need to kick of Airflow. To do so, navigate to the airflow directory in the cloned repo:
 
@@ -180,9 +197,7 @@ docker-compose up
 
 If you have any issues, check [here](https://airflow.apache.org/docs/apache-airflow/stable/start/docker.html).
 
-
-
-## Setting up DBT
+## Setting up DBT <a name="DBT"></a>
 
 Once our data has been loaded into our Data Warehouse, we'll want to transform it, making it ready for analysis.
 
@@ -315,7 +330,7 @@ We now want to setup a production run, as we wouldn't want analysts accessing ou
 1. Under `Triggers` ,normally you'd have this on a schedule, but for our purposes, just de-select so that it does not run on a schedule. We'll just run it manually. 
 1. Once saved, run the job. You can then check the Redshift cluster, where you should find a new schema folder with our production table/model.
 
-## Data Visualisation
+## Data Visualisation <a name="DataViz"></a>
 
 It's up to you what kind of dashboarding / data viz tool you use. In my case, I used [PowerBI](https://powerbi.microsoft.com/en-gb/). For this, you'll need to use Windows OS. If you're on Mac or Linux, you can consider a virtualisation software like [virtualbox](https://www.virtualbox.org) to set use Windows.
 
@@ -333,7 +348,7 @@ To connect Redshift to PowerBI:
 
 <img src="https://github.com/ABZ-Aaron/Reddit-API-Pipeline/blob/master/images/dashboard2.png" width=100% height=100%>
 
-## Good Job
+## Good Job <a name="FinalNotes"></a>
 
 You should now have a functional data pipeline.
 
