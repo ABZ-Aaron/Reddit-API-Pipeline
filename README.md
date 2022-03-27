@@ -8,7 +8,7 @@ Due to specifications required, project is more complex than required, with the 
 
 ## Architecture
 
-<img src="https://github.com/ABZ-Aaron/Reddit-API-Pipeline/blob/master/images/process.png" width=60% height=60%>
+<img src="https://github.com/ABZ-Aaron/Reddit-API-Pipeline/blob/master/images/process.png" width=100% height=100%>
 
 * Architecture of pipeline
 
@@ -23,11 +23,11 @@ Due to specifications required, project is more complex than required, with the 
 
 ### Expected Output
 
-<img src="https://github.com/ABZ-Aaron/Reddit-API-Pipeline/blob/master/images/dashboard2.png" width=60% height=60%>
+<img src="https://github.com/ABZ-Aaron/Reddit-API-Pipeline/blob/master/images/dashboard2.png" width=100% height=100%>
 
 * Dashboard in PowerBI
 
-<img src="https://github.com/ABZ-Aaron/Reddit-API-Pipeline/blob/master/images/dashboard1.png" width=60% height=60%>
+<img src="https://github.com/ABZ-Aaron/Reddit-API-Pipeline/blob/master/images/dashboard1.png" width=100% height=100%>
 
 * Dashboard with Filter in PowerBI
 ## Introduction
@@ -93,7 +93,7 @@ aws cloudformation delete-stack --stack-name myredshiftstack
 
 In the AWS Console, you can navigate to CloudFormation using the search bar, and check the status of your stack. If you navigate to Redshift using the search bar, you should also see your cluster setup.
 
-## ijweoifjiowejf
+## Configuration File
 
 Next, you'll need to create a configuration file in the correct folder where you'll store some AWS details:
 
@@ -106,6 +106,35 @@ cd ~/Reddit-API-Pipeline/airflow/extraction
 touch pipeline.conf
 ```
 * Create configuration file
+
+Copy the following into this file, replacing the `XXXXXXX` values:
+
+```conf
+[boto_config]
+access_key = XXXXXXXXX
+secret_key = XXXXXXXXX
+bucket_name = XXXXXXXX
+account_id = XXXXXXXX
+
+[redshift_config]
+database = dev
+username = awsuser
+password = XXXXXXXXX
+host =  XXXXXXXX
+port = 5439
+iam_role = RedShiftLoadRole
+
+[reddit_config]
+secret = XXXXXXXXX
+developer = XXXXXXXX
+name = XXXXXXXXX
+client_id = XXXXXXXXX
+```
+* For the Boto Config, you'll need the `access_key` and `secret_key` generated from the User Account you would have generated when you setup and configured AWS. The bucket name should be something unique (e.g. yourname-reddit-s3-bucket). The Account ID you'll find in AWS.
+
+* For Redshift Config, you'll need to input your Redshift `host` name, along with the `password` for the database. The `host` name can be found in the Redshift AWS Console, and will start with the name of your cluster, and end with `amazonaws.com`. The remaining field can be left as the default assuming you set Redshift up using the `Cloudformation` script.
+
+* For the Reddit Config, these are the details you took note of after setting up your Reddit App.
 
 ## Running Docker with Airflow
 
@@ -126,7 +155,18 @@ To start our pipeline, we'll need to kick of Airflow. To do so, navigate to the 
 ```bash
 cd ~/RedditApp/airflow
 ```
-* Navigate to airflow directory, assuming the repo was copied to your home folder
+* Navigate to airflow directory
+
+```bash
+mkdir -p ./dags ./logs ./plugins
+echo -e "AIRFLOW_UID=$(id -u)" > .env
+```
+* Create necessary folders. See [here](https://airflow.apache.org/docs/apache-airflow/stable/start/docker.html) for more details
+
+```bash
+mv elt_reddit_pipeline.py ./dags/elt_reddit_pipeline.py
+```
+* Move DAG script to DAG folder
 
 ```bash
 docker-compose up airflow-init
@@ -275,8 +315,37 @@ We now want to setup a production run, as we wouldn't want analysts accessing ou
 1. Under `Triggers` ,normally you'd have this on a schedule, but for our purposes, just de-select so that it does not run on a schedule. We'll just run it manually. 
 1. Once saved, run the job. You can then check the Redshift cluster, where you should find a new schema folder with our production table/model.
 
-## Loading data into PowerBI
+## Data Visualisation
 
-In progress...
+It's up to you what kind of dashboarding / data viz tool you use. In my case, I used [PowerBI](https://powerbi.microsoft.com/en-gb/). For this, you'll need to use Windows OS. If you're on Mac or Linux, you can consider a virtualisation software like [virtualbox](https://www.virtualbox.org) to set use Windows.
 
+If that's not an option, other BI tools won't differ too much from PowerBI.
+
+To connect Redshift to PowerBI:
+
+1. Create an account with PowerBI. If you don't have a work or school email address, consider setting up an account with a [temporary email address](https://tempmail.net), as it won't accept Gmail and other services used for personal accounts. 
+
+2. Open PowerBI and click `Get Data`
+3. Search for `Redshift` in the search box and click `Connect`
+4. Enter your Redshift server/host name, and the name of the database (e.g. dev) and click `OK`
+5. Enter the username (e.g. awsuser) and password for the database, and then select the relevant table you'd like to load in. 
+6. You can now feel free to create some graphs and visualisations. Here's an example:
+
+<img src="https://github.com/ABZ-Aaron/Reddit-API-Pipeline/blob/master/images/dashboard2.png" width=100% height=100%>
+
+## Good Job
+
+You should now have a functional data pipeline.
+
+You'll most likely want to shut down the services you setup here so you don't incur a charge. 
+
+1. Terminate your Redshift Cluster by running the following cloudformation command. Once complete, you can navigate to the Redshift console in AWS and double check you no longer have a cluster running (make sure you have selected the relevant region/location from the top right hand menu in AWS)
+
+```bash
+aws cloudformation delete-stack --stack-name myredshiftstack  
+```
+
+2. Manually delete the S3 Bucket and contents. You can do this via the AWS UI in the S3 Console.
+
+3. Delete your DBT account if necessary
 

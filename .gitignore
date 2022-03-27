@@ -4,10 +4,8 @@ notes/
 airflow/extraction/pipeline.conf
 airflow/extraction/*.csv
 airflow/dags/__pycache__
-airflow/plugins
-airflow/logs
-airflow/extracts
+airflow/plugins/*
+airflow/logs/*
+airflow/extracts/*
 airflow/.env
 airflow/.DS_Store
-cloudformation/
-

@@ -1,0 +1,46 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Metadata:
+    Generator: "former2"
+Description: ""
+Resources:
+    IAMRole:
+        Type: "AWS::IAM::Role"
+        Properties:
+            Path: "/"
+            RoleName: "RedShiftLoadRole22"
+            AssumeRolePolicyDocument: "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"redshift.amazonaws.com\"},\"Action\":\"sts:AssumeRole\"}]}"
+            MaxSessionDuration: 3600
+            ManagedPolicyArns: 
+              - "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess"
+            Description: "Allows Redshift clusters to call AWS services on your behalf."
+    
+    EC2SecurityGroup:
+        Type: "AWS::EC2::SecurityGroup"
+        Properties:
+            GroupDescription: "Allows access to Redshift"
+            GroupName: "RedShiftSG"
+            SecurityGroupIngress: 
+              - 
+                CidrIp: "0.0.0.0/0"
+                IpProtocol: "-1"
+            SecurityGroupEgress: 
+              - 
+                CidrIp: "0.0.0.0/0"
+                IpProtocol: "-1"
+
+    RedshiftCluster:
+        Type: "AWS::Redshift::Cluster"
+        Properties:
+            ClusterIdentifier: "redshift-cluster-pipeline"
+            ClusterType: "single-node"
+            NodeType: "dc2.large"
+            MasterUsername: "awsuser"
+            MasterUserPassword: 'ENTER PASSWORD HERE'
+            DBName: "dev"
+            VpcSecurityGroupIds: 
+              - !Ref EC2SecurityGroup
+            PreferredMaintenanceWindow: "tue:19:00-tue:19:30"
+            PubliclyAccessible: true
+            IamRoles: 
+              - !GetAtt IAMRole.Arn
+      
