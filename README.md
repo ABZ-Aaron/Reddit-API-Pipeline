@@ -1,10 +1,10 @@
 # Reddit Pipeline
 
-This is an independent project developed after completing the DataTalksClub [BootCamp](https://github.com/DataTalksClub/data-engineering-zoomcamp).
+This is an independent Data Engineering project developed after completing the DataTalksClub [BootCamp](https://github.com/DataTalksClub/data-engineering-zoomcamp).
 
-It is an ELT pipeline to extract Reddit data from [r/dataengineering](https://www.reddit.com/r/dataengineering/) using Reddit's API and load it into a Data Warehouse, before transforming for analysis.
+The goal here is to extract Reddit data from [r/dataengineering](https://www.reddit.com/r/dataengineering/) using Reddit's API and load it into a Data Warehouse, before transforming for analysis.
 
-Due to specifications required, project is more complex than required, with the main purpose being to further develop skills using a variety of tools. 
+Due to required specifications, project is more complex than it needs to be, with the main purpose being to further develop skills using a variety of tools. 
 
 ## Table of Contents
 1. [Architecture](#Architecture)
@@ -95,7 +95,7 @@ cd ~/Reddit-API-Pipeline/cloudformation
 ```bash
 vim setup_redshift.yml
 ```
-* Open the YML file. If vim doesn't work, open by any means you wish. Once open, update the password field with the password for the admin account setting up the cluster. Save and exit.
+* Open the YML file. If vim doesn't work, open by any means you wish. Once open, update the password field with a unique password. Save and exit.
 
 ```bash
 aws cloudformation deploy --template-file setup_redshift.yml --stack-name myredshiftstack --capabilities CAPABILITY_NAMED_IAM    
