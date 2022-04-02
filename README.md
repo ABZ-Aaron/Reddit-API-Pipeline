@@ -1,10 +1,10 @@
 # Reddit Pipeline
 
-This is an independent Data Engineering project developed after completing the DataTalksClub [BootCamp](https://github.com/DataTalksClub/data-engineering-zoomcamp).
+This is an independent Data Engineering project I've been working on, where the goal is to extract Reddit data from [r/dataengineering](https://www.reddit.com/r/dataengineering/) using Reddit's API and load it into a Data Warehouse, before transforming for analysis.
 
-The goal here is to extract Reddit data from [r/dataengineering](https://www.reddit.com/r/dataengineering/) using Reddit's API and load it into a Data Warehouse, before transforming for analysis.
+Project is more complex than it needs to be, with the main purpose being to further develop skills using a variety of tools. I may refactor this at a later point using AWS Lambdas and Step functions. 
 
-Due to required specifications, project is more complex than it needs to be, with the main purpose being to further develop skills using a variety of tools. 
+If you would like to try setting this pipeline up yourself, follow the below steps.
 
 ## Table of Contents
 1. [Architecture](#Architecture)
@@ -16,7 +16,7 @@ Due to required specifications, project is more complex than it needs to be, wit
 7. [Setup Redshift](#SetupsRedshift)
 8. [Configuration File](#ConfigFile)
 9. [Docker & Airflow](#DockerAirflow)
-10. [DBT](#DBT)
+10. [dbt](#DBT)
 12. [Data Visualisation](#DataViz)
 13. [The End](#FinalNotes)
 
@@ -49,7 +49,8 @@ Due to required specifications, project is more complex than it needs to be, wit
 
 ## Introduction <a name="Introduction"></a>
 
-If you would like to set this pipeline up yourself, follow the below steps.
+Below are a set of steps I took when setting this pipeline up. Feel free to set this up yourself.
+
 ## Clone Repo & Setup <a name="CloneRepo&Setup"></a>
 
 First step is to clone the Reddit App repo which contains files and folder required for this pipeline. Clone this into your home directory:
