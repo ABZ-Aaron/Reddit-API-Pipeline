@@ -1,24 +1,23 @@
-# Reddit Pipeline
+<img src="https://github.com/ABZ-Aaron/Reddit-API-Pipeline/blob/master/images/process.png" width=100% height=100%>
 
-This is an independent Data Engineering project I've been working on, where the goal is to extract Reddit data from [r/dataengineering](https://www.reddit.com/r/dataengineering/) using Reddit's API and load it into a Data Warehouse, before transforming for analysis.
+# Reddit ETL Pipeline
 
-Project is more complex than it needs to be, with the main purpose being to further develop skills using a variety of tools. I may refactor this at a later point using AWS Lambdas and Step functions. 
+A data pipeline to extract Reddit data from [r/dataengineering](https://www.reddit.com/r/dataengineering/). Output is a PowerBI dashboard, which provides an overview of topics, posts and comments for subreddit.
 
-If you would like to try setting this pipeline up yourself, follow the below steps.
+Motivation for this project was partly based on an interest in the Data Engineering subreddit. It also provided a good opportunity to develop skills and experience in a range of tools. As such, project is more complex than required, utilising dbt, airflow, docker and cloud based storage.
 
 ## Table of Contents
 1. [Architecture](#Architecture)
-2. [Process](#Process)
-3. [Expected Output](#ExpectedOutput)
-4. [Introduction](#Introduction)
-5. [Setup Reddit API](#SetupRedditAPI)
-6. [Setup AWS](#SetupAWS)
-7. [Setup Redshift](#SetupsRedshift)
-8. [Configuration File](#ConfigFile)
-9. [Docker & Airflow](#DockerAirflow)
-10. [dbt](#DBT)
-12. [Data Visualisation](#DataViz)
-13. [The End](#FinalNotes)
+1. [Output](#ExpectedOutput)
+1. [Introduction](#Introduction)
+1. [Setup Reddit API](#SetupRedditAPI)
+1. [Setup AWS](#SetupAWS)
+1. [Setup Redshift](#SetupsRedshift)
+1. [Configuration File](#ConfigFile)
+1. [Docker & Airflow](#DockerAirflow)
+1. [dbt](#DBT)
+1. [Data Visualisation](#DataViz)
+1. [The End](#FinalNotes)
 
 ---
 
@@ -28,8 +27,6 @@ If you would like to try setting this pipeline up yourself, follow the below ste
 
 * Architecture of pipeline
 
-## Process <a name="Process"></a>
-
 1. Extract data using [Reddit API](https://www.reddit.com/dev/api/)
 1. Load into [AWS S3](https://aws.amazon.com/s3/)
 1. Copy into [AWS Redshift](https://aws.amazon.com/redshift/)
@@ -37,7 +34,7 @@ If you would like to try setting this pipeline up yourself, follow the below ste
 1. Create [PowerBI](https://powerbi.microsoft.com/en-gb/) Dashboard
 1. Orchestrate with [Airflow](https://airflow.apache.org) installed via [Docker](https://www.docker.com)
 
-## Expected Output <a name="ExpectedOutput"></a>
+## Output <a name="ExpectedOutput"></a>
 
 <img src="https://github.com/ABZ-Aaron/Reddit-API-Pipeline/blob/master/images/dashboard2.png" width=100% height=100%>
 
@@ -49,11 +46,10 @@ If you would like to try setting this pipeline up yourself, follow the below ste
 
 ## Introduction <a name="Introduction"></a>
 
-Below are a set of steps I took when setting this pipeline up. Feel free to set this up yourself.
-
+If you would like to set up a pipeline like this yourself, follow the below steps.
 ## Clone Repo & Setup <a name="CloneRepo&Setup"></a>
 
-First step is to clone the Reddit App repo which contains files and folder required for this pipeline. Clone this into your home directory:
+First step is to clone this repo, which contains files and folder required for this pipeline. Clone this into your home directory:
 
 ```bash
 git clone https://github.com/ABZ-Aaron/Reddit-API-Pipeline.git
@@ -62,15 +58,18 @@ git clone https://github.com/ABZ-Aaron/Reddit-API-Pipeline.git
 
 ## Reddit API <a name="SetupRedditAPI"></a>
 
-To extract Reddit data, we can use it's API (Application Programming Interface). To use this, you'll need to create an `app`. 
+To extract Reddit data, we can use its API (Application Programming Interface). There's a couple steps you'll need to follow in order to set this up.
 
-To do this, first setup a Reddit account if you don't have one, then navigate [here](https://www.reddit.com/prefs/apps) and create the app. Make sure you select `script` from the radio buttons during the setup process.
+First create a Reddit account if you don't have one, then navigate [here](https://www.reddit.com/prefs/apps) and create an `app`, following the steps. Make sure you select `script` from the radio buttons during the setup process.
 
-Once setup, take a note of the `name` you gave the app, the `App ID`, and the `API Secret Key`.
+Once it's setup, take a note of the `name` you gave the app, the `App ID`, and the `API Secret Key`.
 
 ## Setup AWS <a name="SetupAWS"></a>
 
-We'll be using the cloud to store and transform our Reddit data. In our case, well use Amazon Web Service (AWS) which offers a free tier.
+We'll be using the cloud to store our Reddit data. In our case, well use Amazon Web Service (AWS) which offers a free tier.
+
+In our case, we'd be fine to just use a local database like Postgresql. However, consider this good practice.
+
 
 1. Setup a personal [AWS account](https://portal.aws.amazon.com/billing/signup?nc2=h_ct&src=header_signup&redirect_url=https%3A%2F%2Faws.amazon.com%2Fregistration-confirmation#/start). Follow instructions [here](https://aws.amazon.com/getting-started/guides/setup-environment/module-one/) and setup with free tier.
 
@@ -80,13 +79,15 @@ We'll be using the cloud to store and transform our Reddit data. In our case, we
 
 3. Setup CLI following this [guide](https://aws.amazon.com/getting-started/guides/setup-environment/module-three/). 
 
-    This allows us to control AWS services from the command line interface. We'll need to configure credentials for CLI to use.
+    This allows us to control AWS services from the command line interface. 
+
+One thing to always note when using AWS is the region (e.g. `us-east-1`). When accessing certain resources, you can change this on the top right of the AWS UI. If you find you're missing a redshift cluster (we'll set this up next) it may be because you're region isn't set to the one redshift was setup on. Change it to the correct region and you'll see your cluster.
 
 ## Setup Redshift <a name="SetupsRedshift"></a>
 
-Redshift is a data warehousing solution offered by AWS. This will be the end destination for our data. We'll first need to setup a Redshift cluster.
+Redshift is a columnar data warehousing solution offered by AWS. This will be the end destination for our data. Let's setup a Redshift cluster.
 
-To setup AWS Redshift, you can use AWS's infrastructure-as-code tool `CloudFormation` by running the following steps:
+We'll use AWS's infrastructure-as-code tool `CloudFormation`. This essentially allows us to setup AWS resources using code. If you've cloned this repo, you'll just need to run the following commands:
 
 ```bash
 cd ~/Reddit-API-Pipeline/cloudformation
@@ -96,7 +97,9 @@ cd ~/Reddit-API-Pipeline/cloudformation
 ```bash
 vim setup_redshift.yml
 ```
-* Open the YML file. If vim doesn't work, open by any means you wish. Once open, update the password field with a unique password. Save and exit.
+* Open the YML file. If vim doesn't work, open by any means you wish. 
+
+Once file is open, update the password field with a unique password. Save and exit.
 
 ```bash
 aws cloudformation deploy --template-file setup_redshift.yml --stack-name myredshiftstack --capabilities CAPABILITY_NAMED_IAM    
@@ -109,19 +112,17 @@ If you wish to delete the resources created, run the following. Note you can als
 aws cloudformation delete-stack --stack-name myredshiftstack  
 ```
 
-In the AWS Console, you can navigate to CloudFormation using the search bar, and check the status of your stack. If you navigate to Redshift using the search bar, you should also see your cluster setup.
+In the AWS Console, you can navigate to `CloudFormation` using the search bar, and check the status of your stack. 
+
+If you navigate to Redshift using the search bar, you should also see that your cluster is now setup.
 
 ## Configuration File <a name="ConfigFile"></a>
 
 Next, you'll need to create a configuration file in the correct folder where you'll store some AWS details:
 
-```bash
-cd ~/Reddit-API-Pipeline/airflow/extraction
-```
-* Change directory into extraction folder
 
 ```bash
-touch pipeline.conf
+touch ~/Reddit-API-Pipeline/airflow/extraction/pipeline.conf
 ```
 * Create configuration file
 
@@ -158,7 +159,7 @@ client_id = XXXXXXXXX
 
 To orchestrate our pipeline, we'll be using Apache Airflow, which allows us to define [DAGs](https://en.wikipedia.org/wiki/Directed_acyclic_graph). Installing it can be a bit tricky, so for this, we'll install it with Docker. 
 
-Docker as something that allows us to create and maintain containers. These are a bit like a special kind of virtual machine which, in our case, includes everything we need to run Airflow.
+Docker is something that allows us to create and maintain containers. These are a bit like a special kind of virtual machine which, in our case, includes everything we need to run Airflow.
 
 ### Installing Docker <a name="Docker"></a>
 
@@ -168,7 +169,7 @@ Docker as something that allows us to create and maintain containers. These are 
 
 ### Running Airflow <a name="Airflow"></a>
 
-To start our pipeline, we'll need to kick of Airflow. To do so, navigate to the airflow directory in the cloned repo:
+To start our pipeline, we'll need to kick off Airflow. To do so, navigate to the airflow directory in the cloned repo:
 
 ```bash
 cd ~/RedditApp/airflow
@@ -176,20 +177,14 @@ cd ~/RedditApp/airflow
 * Navigate to airflow directory
 
 ```bash
-mkdir -p ./dags ./logs ./plugins
 echo -e "AIRFLOW_UID=$(id -u)" > .env
 ```
-* Create necessary folders. See [here](https://airflow.apache.org/docs/apache-airflow/stable/start/docker.html) for more details
-
-```bash
-mv elt_reddit_pipeline.py ./dags/elt_reddit_pipeline.py
-```
-* Move DAG script to DAG folder
+* Create `.env` file. See [here](https://airflow.apache.org/docs/apache-airflow/stable/start/docker.html) for more details if interested
 
 ```bash
 docker-compose up airflow-init
 ```
-• Initialise the airflow database
+* Initialise the airflow database
 
 ```bash
 docker-compose up
@@ -197,6 +192,18 @@ docker-compose up
 * Run airflow
 
 If you have any issues, check [here](https://airflow.apache.org/docs/apache-airflow/stable/start/docker.html).
+
+After a few minutes, Airflow should be fully running. You should now be able to access the Airflow Web Interface:
+
+`http://localhost:8080`
+
+Password and username are both `airflow`.
+
+Once in, you'll see something like this:
+
+<img src="https://github.com/ABZ-Aaron/Reddit-API-Pipeline/blob/master/images/process.png" width=100% height=100%>
+
+Switch the DAG on with the button to the left of `etl_reddit_pipeline`. You can then run the DAG with the start button on the right hand side.
 
 ## Setting up DBT <a name="DBT"></a>
 
