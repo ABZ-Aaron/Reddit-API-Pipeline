@@ -37,7 +37,7 @@ If you navigate to Redshift using the search bar, you should also see that your 
 
 ---
 
-[Previous Step](https://github.com/ABZ-Aaron/Reddit-API-Pipeline/blob/master/instructions/aws.md) | [Next Step](https://github.com/ABZ-Aaron/Reddit-API-Pipeline/blob/master/instructions/config.md)
+[Previous Step](aws.md) | [Next Step](config.md)
 
 or
 
