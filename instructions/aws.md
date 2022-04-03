@@ -1,4 +1,4 @@
-# AWS <a name="SetupAWS"></a>
+# AWS
 
 We'll be using the cloud to store our Reddit data. In our case, we'll use Amazon Web Service (AWS) which offers a free tier.
 
@@ -30,7 +30,7 @@ One thing to always note when using AWS is the region (e.g. `us-east-1`). When a
 
 ---
 
-[Previous Step](https://github.com/ABZ-Aaron/Reddit-API-Pipeline/blob/master/instructions/reddit.md) | [Next Step](https://github.com/ABZ-Aaron/Reddit-API-Pipeline/blob/master/instructions/setup_redshift.md)
+[Previous Step](reddit.md) | [Next Step](https://github.com/ABZ-Aaron/Reddit-API-Pipeline/blob/master/instructions/setup_redshift.md)
 
 or
 
