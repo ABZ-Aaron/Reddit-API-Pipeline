@@ -18,14 +18,14 @@ To connect Redshift to PowerBI:
 5. Enter the username (e.g. awsuser) and password for the database, and then select the relevant table you'd like to load in. 
 6. You can now feel free to create some graphs and visualisations. Here's an example:
 
-<img src="https://github.com/ABZ-Aaron/Reddit-API-Pipeline/blob/master/images/dashboard2.png" width=70% height=70%>
+  <img src="https://github.com/ABZ-Aaron/Reddit-API-Pipeline/blob/master/images/dashboard2.png" width=70% height=70%>
 
 
-<img src="https://github.com/ABZ-Aaron/Reddit-API-Pipeline/blob/master/images/dashboard1.png" width=70% height=70%>
+  <img src="https://github.com/ABZ-Aaron/Reddit-API-Pipeline/blob/master/images/dashboard1.png" width=70% height=70%>
 
 ---
 
-[Previous Step](https://github.com/ABZ-Aaron/Reddit-API-Pipeline/blob/master/instructions/dbt.md) | [Next Step](https://github.com/ABZ-Aaron/Reddit-API-Pipeline/blob/master/instructions/terminate.md)
+[Previous Step](dbt.md) | [Next Step](terminate.md)
 
 or
 
