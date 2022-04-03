@@ -7,7 +7,7 @@ Resources:
         Type: "AWS::IAM::Role"
         Properties:
             Path: "/"
-            RoleName: "RedShiftLoadRole22"
+            RoleName: "RedShiftLoadRole"
             AssumeRolePolicyDocument: "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"redshift.amazonaws.com\"},\"Action\":\"sts:AssumeRole\"}]}"
             MaxSessionDuration: 3600
             ManagedPolicyArns: 
@@ -35,7 +35,7 @@ Resources:
             ClusterType: "single-node"
             NodeType: "dc2.large"
             MasterUsername: "awsuser"
-            MasterUserPassword: 'ENTER PASSWORD HERE'
+            MasterUserPassword: 'ENTER PASSWORD HERE' #<-- Fill this in
             DBName: "dev"
             VpcSecurityGroupIds: 
               - !Ref EC2SecurityGroup
