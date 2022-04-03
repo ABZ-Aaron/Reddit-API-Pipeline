@@ -49,7 +49,15 @@ There's a number of improvements that can be made here, which I'll implement at 
 
 * Use [Pushshift.io](https://www.reddit.com/r/pushshift/comments/bcxguf/new_to_pushshift_read_this_faq/) API instead of [PRAW](https://praw.readthedocs.io/en/stable/).
 
-  One major issue with this project is that the Airflow DAG and extract script was initially designed to pull Reddit data based on the execution date. For example, if execution date is 20/05/2021, the DAG would only pull data that was posted on that date. Turns out this is not possible with PRAW, which reveals a design flaw in our pipeline. In its current state, we could end up with a file titled `25-12-2020.csv`, yet actual data in the file would be from a date later than this. This could be resolved using something like Pushshift, which allows us to specify date ranges.
+  One major issue with this project is that the Airflow DAG and extract script was initially designed to pull Reddit data based on the execution date. For example, if execution date is 20/05/2021, the DAG would only pull data that was posted on that date.
+  
+  This is not possible with Reddit's API, which reveals a design flaw in our pipeline. In its current state, we could end up with a file titled `25-12-2020.csv`, yet actual data in the file would be from a date later than this. We'll also end up with duplicates in our Redshift table, especially since our Airflow DAG's start date is set to 1 day ago. 
+  
+  This may be resolved using something like Pushshift, which allows us to specify date ranges.
+
+* Remove duplicates
+
+  This follows on from the previous point, and could potentially be resolved using Pushshift. As it stands, duplicate data may exist in our Redshift cluster.
 
 * Improve Dashboard Output
 

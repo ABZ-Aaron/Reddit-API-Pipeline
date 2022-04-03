@@ -5,12 +5,12 @@ from airflow.utils.dates import days_ago
 from datetime import timedelta, datetime
 
 # First of every month at midnight
-schedule_interval = '@monthly'
-start_date = datetime(2022, 4, 1)
+schedule_interval = '@daily'
+start_date = days_ago(1)
 
 default_args = {
     "owner": "airflow",
-    "start_date": days_ago(1),
+    "start_date": start_date,
     "depends_on_past": False,
     "retries": 1,
 }
