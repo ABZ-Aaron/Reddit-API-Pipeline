@@ -33,7 +33,7 @@ To terminate your resources, follow the below steps:
 
 ---
 
-[Previous Step](https://github.com/ABZ-Aaron/Reddit-API-Pipeline/blob/master/instructions/powerbi.md)
+[Previous Step](powerbi.md)
 
 or
 
