@@ -30,7 +30,7 @@ One thing to always note when using AWS is the region (e.g. `us-east-1`). When a
 
 ---
 
-[Previous Step](reddit.md) | [Next Step](https://github.com/ABZ-Aaron/Reddit-API-Pipeline/blob/master/instructions/setup_redshift.md)
+[Previous Step](reddit.md) | [Next Step](setup_redshift.md)
 
 or
 
