@@ -14,7 +14,7 @@ However, to extract Reddit data, we need to use its Application Programming Inte
 
 ---
 
-[Next Step](https://github.com/ABZ-Aaron/Reddit-API-Pipeline/blob/master/instructions/aws.md)
+[Next Step](aws.md)
 
 or
 
