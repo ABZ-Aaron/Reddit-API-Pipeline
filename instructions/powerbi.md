@@ -2,9 +2,11 @@
 
 We now want to visualise our data. I'll leave it to you how you want to do this, but see below for some basic instructions on connecting Redshift to [PowerBI](https://powerbi.microsoft.com/en-gb/). 
 
-For this, you'll need to use Windows OS. If you're on Mac or Linux, you can consider a virtualisation software like [virtualbox](https://www.virtualbox.org) to use Windows.
+For this, you'll need to use Windows OS and install PowerBI. If you're on Mac or Linux, you can consider a virtualisation software like [virtualbox](https://www.virtualbox.org) to use Windows.
 
 If that's not an option, other BI tools won't differ too much from PowerBI, and connecting Redshift will be much the same as it is for PowerBI.
+
+Once such option could be AWS's very own [QuickSight](https://aws.amazon.com/quicksight/). It's easy to setup and use, and integrates easily with your AWS resources.
 
 ## Setup
 
