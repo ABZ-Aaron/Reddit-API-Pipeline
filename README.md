@@ -41,7 +41,7 @@ If you would like to setup this pipeline, follow the below steps. Feel free to m
 1. Setup Docker & Airflow ~ [see here](instructions/docker_airflow.md)
 1. Setup dbt ~ [see here](instructions/dbt.md)
 1. Create Dashboard ~ [see here](instructions/powerbi.md)
-1. Terminate Resources ~ [see here](instructions/.md)
+1. Final Notes ~ [see here](instructions/terminate.md)
 
 ## Improvements
 

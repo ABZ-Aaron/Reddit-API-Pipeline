@@ -71,7 +71,7 @@ Note there are some issues with this pipeline. You may end up with a file titled
 
 ---
 
-[Previous Step]() | [Next Step]()
+[Previous Step](https://github.com/ABZ-Aaron/Reddit-API-Pipeline/blob/29fea222d27b94b54eabc164f598181b663cdf92/instructions/config.md) | [Next Step](https://github.com/ABZ-Aaron/Reddit-API-Pipeline/blob/29fea222d27b94b54eabc164f598181b663cdf92/instructions/dbt.md)
 
 or
 

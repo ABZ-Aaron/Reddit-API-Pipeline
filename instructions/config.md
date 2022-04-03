@@ -21,7 +21,7 @@ Next, you'll need to update the configuration file with your details. The extrac
 
 ---
 
-[Previous Step](https://github.com/ABZ-Aaron/Reddit-API-Pipeline/blob/master/instructions/setup_redshift.md) | [Next Step](/Users/aaronwright/Documents/Tech/Projects/RedditApp/instructions/docker_airflow.md)
+[Previous Step](https://github.com/ABZ-Aaron/Reddit-API-Pipeline/blob/master/instructions/setup_redshift.md) | [Next Step](https://github.com/ABZ-Aaron/Reddit-API-Pipeline/blob/master/instructions/docker_airflow.md)
 
 or
 
