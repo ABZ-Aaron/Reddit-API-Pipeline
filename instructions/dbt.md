@@ -116,13 +116,13 @@ You are now in an IDE which is connected to your Redshift cluster. Here we'll ru
 
 6. To test what we've done, we can run the following commands at the bottom of the DBT IDE and make sure an error isn't returned:
 
-```bash
-dbt run
-```
+    ```bash
+    dbt run
+    ```
 
-```bash
-dbt test
-```
+    ```bash
+    dbt test
+    ```
 
 7. The next step is to click `commit` on the right hand menu to commit our changes.
 
@@ -148,7 +148,7 @@ However, we now want to setup a production run, as we wouldn't want analysts acc
 
 ---
 
-[Previous Step](https://github.com/ABZ-Aaron/Reddit-API-Pipeline/blob/master/instructions/docker_airflow.md) | [Next Step](https://github.com/ABZ-Aaron/Reddit-API-Pipeline/blob/master/instructions/powerbi.md)
+[Previous Step](docker_airflow.md) | [Next Step](powerbi.md)
 
 or
 
