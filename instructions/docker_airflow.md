@@ -37,7 +37,7 @@ To start our pipeline, we'll need to kick off Airflow which requires a couple of
 
     Once in, you'll see something like this:
 
-    <img src="https://github.com/ABZ-Aaron/Reddit-API-Pipeline/blob/master/images/process.png" width=100% height=100%>
+    <img src="https://github.com/ABZ-Aaron/Reddit-API-Pipeline/blob/master/images/airflow.png" width=70% height=70%>
 
 4. Switch the DAG on with the button to the left of `etl_reddit_pipeline`. You can then run the DAG with the start button on the right hand side.
 
@@ -71,7 +71,7 @@ Note there are some issues with this pipeline. You may end up with a file titled
 
 ---
 
-[Previous Step](https://github.com/ABZ-Aaron/Reddit-API-Pipeline/blob/29fea222d27b94b54eabc164f598181b663cdf92/instructions/config.md) | [Next Step](https://github.com/ABZ-Aaron/Reddit-API-Pipeline/blob/29fea222d27b94b54eabc164f598181b663cdf92/instructions/dbt.md)
+[Previous Step](config.md) | [Next Step](dbt.md)
 
 or
 
