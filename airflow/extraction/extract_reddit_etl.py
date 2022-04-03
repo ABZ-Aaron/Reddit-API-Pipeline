@@ -37,7 +37,7 @@ reddit_read_only = praw.Reddit(client_id=CLIENT_ID,
 subreddit = reddit_read_only.subreddit("dataengineering")
 
 # Take top 30 posts of the past month
-posts = subreddit.top('month', limit = 30)
+posts = subreddit.top('day', limit = 10)
 
 # Dictionary to store data
 posts_dict = {"ID" : [],
