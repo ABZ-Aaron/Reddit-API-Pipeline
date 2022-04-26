@@ -11,7 +11,7 @@ Once such option could be AWS's very own [QuickSight](https://aws.amazon.com/qui
 ## Setup
 
 To connect Redshift to PowerBI:
-
+ 
 1. Create an account with PowerBI. If you don't have a work or school email address, consider setting up an account with a [temporary email address](https://tempmail.net), as it won't accept Gmail and other services used for personal accounts. 
 
 2. Open PowerBI and click `Get Data`
