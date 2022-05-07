@@ -53,7 +53,7 @@ It's a very simple DAG. All it's doing is running 4 tasks, one after the other. 
 
 1. `upload_to_s3`
 
-    This is creating a bucket in S3 (if it doesn't already exist). This is the bucket name you specified during the `Configuration` step earlier. It's then uploading the newly created CSV to AWS S3 for storage.
+    This is creating a bucket in S3 (if it doesn't already exist). This is the bucket name you specified during the `Configuration` step earlier (NOTE: You'll need to go into this script and update the `LOCATION` AND `BUCKET_NAME` variables with what you specified in the earlier step). It's then uploading the newly created CSV to AWS S3 for storage.
 
 1. `copy_to_redshift`
 
