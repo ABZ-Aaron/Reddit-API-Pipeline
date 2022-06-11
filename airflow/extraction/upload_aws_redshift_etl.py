@@ -50,21 +50,12 @@ sql_create_table = """CREATE TABLE IF NOT EXISTS public.Reddit (
                             DatePosted timestamp
                         );"""
 
-sql_create_distinct_table = "CREATE TABLE public.distinct_reddit AS SELECT DISTINCT * FROM public.Reddit;"
-sql_truncate = "TRUNCATE public.Reddit;"""
-sql_insert = "INSERT INTO public.Reddit SELECT * FROM public.distinct_reddit;"
-drop_table = "DROP TABLE public.distinct_orders;"
-
 # Copy S3 file to Redshift table
 sql_copy = f"COPY public.Reddit FROM '{file_path}' iam_role '{role_string}' IGNOREHEADER 1 DELIMITER ',' CSV"
 cur = rs_conn.cursor()
 
 cur.execute(sql_create_table)
 cur.execute(sql_copy)
-cur.execute(sql_create_distinct_table)
-cur.execute(sql_truncate)
-cur.execute(sql_insert)
-cur.execute(drop_table)
 
 cur.close()
 rs_conn.commit()
