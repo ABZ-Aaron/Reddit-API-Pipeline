@@ -25,6 +25,8 @@ It also provided a good opportunity to develop skills and experience in a range 
 
 ## Setup
 
+**NOTE: you may run into some problems trying to run this pipeline, particularly with cloudformation. I'm currently working on some fixes, as well as changing the general design.**
+
 If you would like to setup this pipeline, follow the below steps. Feel free to make improvements/changes. 
 
 1. Clone Repo

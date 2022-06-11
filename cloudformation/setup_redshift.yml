@@ -23,10 +23,6 @@ Resources:
               - 
                 CidrIp: "0.0.0.0/0"
                 IpProtocol: "-1"
-            SecurityGroupEgress: 
-              - 
-                CidrIp: "0.0.0.0/0"
-                IpProtocol: "-1"
 
     RedshiftCluster:
         Type: "AWS::Redshift::Cluster"
@@ -35,7 +31,7 @@ Resources:
             ClusterType: "single-node"
             NodeType: "dc2.large"
             MasterUsername: "awsuser"
-            MasterUserPassword: 'ENTER PASSWORD HERE' #<-- Fill this in
+            MasterUserPassword: 'XXXXX' #<-- Fill this in
             DBName: "dev"
             VpcSecurityGroupIds: 
               - !Ref EC2SecurityGroup
