@@ -20,7 +20,7 @@ output "redshift_password" {
 
 output "redshift_username" {
     description = "Username of Redshift cluster"
-    value = var.db_username
+    value = aws_redshift_cluster.redshift.master_username
 }
 
 output "redshift_role" {

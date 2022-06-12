@@ -17,6 +17,7 @@ provider "aws" {
 # Configure redshift cluster
 resource "aws_redshift_cluster" "redshift" {
   cluster_identifier = "redshift-cluster-pipeline"
+  skip_final_snapshot = true # must be set so we can destroy redshift with terraform destroy
   master_username    = "awsuser"
   master_password    = var.db_password
   node_type          = "dc2.large"
@@ -47,6 +48,7 @@ resource "aws_iam_role" "redshift_role" {
 # Create bucket
 resource "aws_s3_bucket" "reddit_bucket" {
   bucket = var.s3_bucket
+  force_destroy = true # will delete contents of bucket when we run terraform destroy
 }
 
 # Set access control of bucket to private
