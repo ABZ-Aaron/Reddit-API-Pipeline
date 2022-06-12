@@ -5,23 +5,24 @@ Next, you'll need to update the configuration file with your details. The extrac
 
 ## Setup
 
-1. Open configuration file
-
-    ```bash
-    vim ~/Reddit-API-Pipeline/airflow/extraction/pipeline.conf
-    ```
-2. Change `XXXXX` values
+1. Open the configuration file `~/Reddit-API-Pipeline/airflow/extraction/pipeline.conf`
 
 
-    * For the Boto Config, you'll need the `access_key` and `secret_key` generated from the User Account you would have generated when you setup and configured AWS. The bucket name should be something unique (e.g. yourname-reddit-s3-bucket). The code will create this for us. The Account ID you'll find in AWS.
+1. Change `XXXXX` values
 
-    * For Redshift Config, you'll need to input your Redshift `host` name, along with the `password` for the database. This is the one you specified in the previous step. The `host` name can be found in the Redshift AWS Console (it will start with the name of your cluster, and end with `amazonaws.com`). The remaining field can be left as the default assuming you set Redshift up using the `Cloudformation` script.
+    * For `aws_config` change folder into the terraform folder and run the command:
 
-    * For the Reddit Config, these are the details you took note of after setting up your Reddit App. Note the `developer` is your Reddit name.
+
+        ```bash
+        terraform output
+        ```
+        This will output the values you need to store under `aws_config`. Just be sure to remove any `"` from the strings.
+        
+    * For `reddit_config` these are the details you took note of after setting up your Reddit App. Note the `developer` is your Reddit name.
 
 ---
 
-[Previous Step](setup_redshift.md) | [Next Step](docker_airflow.md)
+[Previous Step](setup_infrastructure.md) | [Next Step](docker_airflow.md)
 
 or
 

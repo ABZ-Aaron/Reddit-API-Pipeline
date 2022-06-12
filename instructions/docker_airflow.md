@@ -12,9 +12,9 @@ Another tool we'll use is Docker. This allows us to create and maintain 'contain
 
 ### Installing Docker <a name="Docker"></a>
 
-1. First you'll need to install Docker. Follow the instructions [here](https://docs.docker.com/get-docker/), selecting the OS your are currently using, as installation instructions differ between each.
+1. First install Docker. Follow the instructions [here](https://docs.docker.com/get-docker/).
 
-1. Next, you'll want to install Docker Compose. Find the instructions [here](https://docs.docker.com/compose/install/.) for your OS.
+1. Next install Docker Compose. Find the instructions [here](https://docs.docker.com/compose/install/.).
 
 ### Running Airflow <a name="Airflow"></a>
 
@@ -27,19 +27,31 @@ To start our pipeline, we'll need to kick off Airflow which requires a couple of
     echo -e "AIRFLOW_UID=$(id -u)" > .env
     docker-compose up airflow-init
     ```
-2. Create our Airflow containers.
+1. If using Windows, make a small update to the `~/Reddit-API-Pipeline/airflow/docker-compose.yaml` file.
+
+    ```yaml
+    # Replace this...
+    - $HOME/.aws/credentials:/home/airflow/.aws/credentials:ro
+
+    # With this...
+     - %UserProfile%\.aws\credentials:/home/airflow/.aws/credentials:ro
+    ```
+
+    * Here we are specifying a volume, so when we run our container, the folder where our AWS credentials are stored will be "synced" with a folder on our container. This will allow our Docker container to find the AWS credentials and successfully run our scripts
+
+1. Create our Airflow containers.
 
     ```bash
     docker-compose up
     ```
 
-3. Give this a few minutes or more. Airflow should then be fully running, and you'll be able to access the Airflow Web Interface via `http://localhost:8080`. Password and username are both `airflow`.
+1. Give this a few minutes or more. Airflow should then be fully running, and you'll be able to access the Airflow Web Interface via `http://localhost:8080`. Password and username are both `airflow`.
 
     Once in, you'll see something like this:
 
     <img src="https://github.com/ABZ-Aaron/Reddit-API-Pipeline/blob/master/images/airflow.png" width=70% height=70%>
 
-4. Switch the DAG on with the button to the left of `etl_reddit_pipeline`. You can then run the DAG with the start button on the right hand side.
+1. Switch the DAG on with the button to the left of `etl_reddit_pipeline`. You can then run the DAG with the start button on the right hand side.
 
 ## Explanation
 
@@ -49,25 +61,19 @@ It's a very simple DAG. All it's doing is running 4 tasks, one after the other. 
 
 1. `extract_reddit_data_task`
 
-    This is extracting Reddit data. Specifically, it's taking the top 10 posts of the day from `r/DataEngineering` and collecting a few different attributes, like the top comment of each post. It's then saving this to a CSV within the same folder the script resides.
+    This is extracting Reddit data. Specifically, it's taking the top posts of the day from `r/DataEngineering` and collecting a few different attributes, like the top comment of each post. It's then saving this to a CSV within a temp folder.
 
 1. `upload_to_s3`
 
-    This is creating a bucket in S3 (if it doesn't already exist). This is the bucket name you specified during the `Configuration` step earlier (NOTE: You'll need to go into this script and update the `LOCATION` AND `BUCKET_NAME` variables with what you specified in the earlier step). It's then uploading the newly created CSV to AWS S3 for storage.
+    This is uploading the newly created CSV to AWS S3 for storage within the bucket Terraform created.
 
 1. `copy_to_redshift`
 
-    This is creating a table in Redshift if it doesn't already exist. It's then using the `COPY` command to copy data from the newly uploaded CSV file in S3 to this table.
-
-1. `remove_files`
-
-    This removes all the CSV files from the current directory.
+    This is creating a table in Redshift if it doesn't already exist. It's then using the `COPY` command to copy data from the newly uploaded CSV file in S3 to Redshift.
 
 ## Note
 
 Anyone issues with Airflow & Docker, have a read through [this](https://airflow.apache.org/docs/apache-airflow/stable/start/docker.html).
-
-Note there are some issues with this pipeline. You may end up with a file titled `25-05-2022.csv` (as an example) yet Reddit data won't necessarily be from this date (It'll be from the current date). This is because Reddit's API doesn't allow us to specify date ranges. Code was initially written with the expectation that it would. This, and generally working with the Reddit API and defining how our pipeline should run with Airflow, are things that need improving.
 
 ---
 

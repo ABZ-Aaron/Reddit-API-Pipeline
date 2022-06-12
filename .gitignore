@@ -9,3 +9,6 @@ airflow/extracts/*
 airflow/.env
 airflow/.DS_Store
 airflow/extraction/pipeline_secret.conf
+terraform/*
+!*.tf
+*.conf

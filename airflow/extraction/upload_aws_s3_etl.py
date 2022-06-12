@@ -1,13 +1,8 @@
 import boto3
-
 import botocore
-
 import configparser
-
 import os
-
 import pathlib
-
 import sys
 
 # Full path to our script
@@ -15,23 +10,17 @@ script_path = pathlib.Path(__file__).parent.resolve()
 
 # Load AWS credentials
 parser = configparser.ConfigParser()
-parser.read(f"{script_path}/pipeline.conf")
-ACCESS_KEY = parser.get("boto_config", "access_key")
-SECRET_ACCESS_KEY = parser.get("boto_config", "secret_key")
-
-# Define bucket name and where it should be stored location-wise
-BUCKET_NAME = 'my-test-bucket-aaron'
-LOCATION = 'eu-west-2'
+parser.read(f"{script_path}/pipeline_conf.conf")
+BUCKET_NAME = parser.get("aws_config", "bucket_name")
+AWS_REGION = parser.get("aws_config", "aws_region")
 
 # Used to determine what our extracted CSV file name is, and what our S3 file name should be
-date = sys.argv[1]
-date = date[:10]
-os.chdir(script_path)
-FILENAME = f"{date}.csv"
+output_name = sys.argv[1]
+FILENAME = f"{output_name}.csv"
 KEY = FILENAME
 
 # Connect to S3
-s3 = boto3.resource('s3', aws_access_key_id = ACCESS_KEY, aws_secret_access_key = SECRET_ACCESS_KEY, region_name = LOCATION )
+s3 = boto3.resource('s3')
 
 # Determine if our S3 bucket exists
 exists = True
@@ -44,9 +33,9 @@ except botocore.exceptions.ClientError as e:
 
 # If bucket does not exist, create it 
 if not exists:
-  s3.create_bucket(Bucket = BUCKET_NAME, CreateBucketConfiguration={'LocationConstraint': 'eu-west-2'})
+  s3.create_bucket(Bucket = BUCKET_NAME, CreateBucketConfiguration={'LocationConstraint': AWS_REGION})
 
 # Upload our CSV file to S3 Bucket
-s3.meta.client.upload_file(Filename = FILENAME, 
+s3.meta.client.upload_file(Filename = '/tmp/' + FILENAME, 
                Bucket = BUCKET_NAME, 
                Key = KEY)

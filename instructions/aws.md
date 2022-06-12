@@ -1,16 +1,16 @@
 # AWS
 
-We'll be using the cloud to store our Reddit data. In our case, we'll use Amazon Web Service (AWS) which offers a free tier.
+We'll be using the cloud to store our Reddit data; specifically, Amazon Web Service (AWS) which offers a free tier.
 
-Specifically, we're going to be using 3 services:
+We're going to be using 2 services:
 
 * [Simple Storage Service (S3)](https://aws.amazon.com/s3/)  ~ This is Cloud Storage. When we extract data from Reddit, we'll store it in a CSV and push to an S3 Bucket as an object (think of a Bucket as a folder and an object as a file). This allows us to store all our raw data in the cloud.
 
-* [Redshift](https://aws.amazon.com/redshift/) ~ This is a Data Warehousing service. Utilising its Massively Parallel Processing (MPP) technology, Redshift is able to execute operations on large datasets at fast speeds. It's based on PostgreSQL, so we can use SQL to run these operations.
+* [Redshift](https://aws.amazon.com/redshift/) ~ This is a Data Warehousing service. Utilising its Massively Parallel Processing (MPP) technology, Redshift is able to execute operations on large datasets at fast speeds. It's based on PostgreSQL, so we can use SQL to run operations here.
 
-* [CloudFormation](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/Welcome.html) ~ This is an infrastructure as code tool. Using CloudFormation, we can create templates which will auto-create the resources we need (e.g. Redshift Cluster).
+In our case, we'd be fine to just use a local database like Postgresql. However, it's good practice to work with cloud tools like this.
 
-In our case, we'd be fine to just use a local database like Postgresql. However, consider this good practice. To get started with AWS, follow the below steps:
+To get started with AWS, follow the below steps:
 
 ## Setup
 
@@ -18,11 +18,19 @@ In our case, we'd be fine to just use a local database like Postgresql. However,
 
 2. Secure your account following these [steps](https://aws.amazon.com/getting-started/guides/setup-environment/module-two/). 
 
-    Here we are setting up MFA for the root user. The root is a special account that has access to everything. Therefore it's important we secure this. We'll also setup IAM users which will have their own set of permissions, in this case, admin permissions.
+    Here we are setting up MFA for the root user. The root is a special account that has access to everything. Therefore it's important we secure this. Also be sure to setup an IAM user which will have its own set of permissions, in this case, admin permissions.
 
 3. Setup CLI following this [guide](https://aws.amazon.com/getting-started/guides/setup-environment/module-three/). 
 
-    This allows us to control AWS services from the command line interface. 
+    This allows us to control AWS services from the command line interface. The goal by the end of this is you should have a folder in your home directory called `.aws` which contains a credentials file, which will look something like this:
+
+    ```config
+    [default]
+    aws_access_key_id = XXXX
+    aws_secret_access_key = XXXX
+    ```
+
+    This will allow our scripts to interact with AWS without us having to include our access key and secret access key within the script.
 
 ## Note
 
@@ -32,7 +40,7 @@ Another thing to note, if you want to run this project fully in the cloud, you'l
 
 ---
 
-[Previous Step](reddit.md) | [Next Step](setup_redshift.md)
+[Previous Step](reddit.md) | [Next Step](setup_infrastructure.md)
 
 or
 
