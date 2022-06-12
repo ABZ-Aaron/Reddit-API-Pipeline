@@ -28,7 +28,7 @@ It also provided a good opportunity to develop skills and experience in a range 
 
 ## Setup
 
-If you would like to setup this pipeline, follow the below steps. Feel free to make improvements/changes. 
+If you would like to setup this pipeline, follow the below steps. Feel free to make improvements/changes. This shouldn't cost you anything unless amend the pipeline to extract large amounts of data, or keep infrastructure up for 2+ months.
 
 1. Clone Repo into home directory
 
