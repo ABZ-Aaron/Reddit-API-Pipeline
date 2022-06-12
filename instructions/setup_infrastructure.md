@@ -1,16 +1,16 @@
 # AWS Infrastucture <a name="SetupsRedshift"></a>
 
-We'll use an infrastructure-as-code tool called `Terraform`. This will allow us to quickly setup our AWS resources using code. Note that Terraform works with multiple cloud resources, not just AWS. If you want a quick introduction, check [this](https://learn.hashicorp.com/terraform?utm_source=terraform_io) out.
+We'll use an infrastructure-as-code tool called `Terraform`. This will allow us to quickly setup our AWS resources using code. Note that Terraform works with multiple cloud resources, not just AWS. If you want a quick introduction, check [this](https://learn.hashicorp.com/terraform?utm_source=terraform_io) tutorial out.
 
 We'll use Terraform to create:
 
 * **Redshift Cluster**
 
-    *Redshift is a columnar data warehousing solution offered by AWS. This will be the end destination for our data. Let's setup a Redshift cluster.*
+    *Redshift is a columnar data warehousing solution offered by AWS. This will be the end destination for our data.*
 
 * **IAM Role forRedshift**
 
-     *Allow Redshift to read from S3.*
+     *Role we assign to Redshift which will give it permission to read data from S3.*
 
 * **S3 Bucket**
 
@@ -32,13 +32,13 @@ We'll use Terraform to create:
 
 1. Fill in the `default` parameters
 
-    Specify a master DB user password for Redshift. Note that this may show up in logs and the terraform state file.
+    * Specify a master DB user password for Redshift. Note that this may show up in logs and the terraform state file.
 
-    Specify a bucket name. This should be unique and not violate any S3 bucket naming constraints (e.g. `<yourfullname>_reddit_bucket`).
+    * Specify a bucket name. This should be unique and not violate any S3 bucket naming constraints (e.g. `<yourfullname>_reddit_bucket`).
 
-    Specify a region (e.g. `eu-west-2`). You'll find a list [here](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.RegionsAndAvailabilityZones.html). Ideally choose somewhere close by. 
+    * Specify a region (e.g. `eu-west-2`). You'll find a list [here](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.RegionsAndAvailabilityZones.html). Ideally choose somewhere close by. 
 
-1. Run this command to download the AWS terraform plugin:
+1. Making sure you are still in teh terraform directory, run this command to download the AWS terraform plugin:
 
     ```
     terraform init

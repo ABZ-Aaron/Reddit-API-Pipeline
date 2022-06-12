@@ -32,8 +32,6 @@ file_path = f"s3://{BUCKET_NAME}/{output_name}.csv"
 # Our IAM role
 role_string = f'arn:aws:iam::{ACCOUNT_ID}:role/{REDSHIFT_ROLE}'
 
-print(role_string)
-
 # Create Redshift table if it doesn't exist
 sql_create_table = """CREATE TABLE IF NOT EXISTS public.reddit (
                             ID varchar PRIMARY KEY,

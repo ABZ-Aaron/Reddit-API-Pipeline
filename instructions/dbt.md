@@ -16,7 +16,7 @@ For reference, here's a [link](https://github.com/ABZ-Aaron/Reddit-API-Pipeline-
 
 1. Setup Up a `Database Connection` - Select Redshift
 
-1. On the next page, enter the relevant Redshift details. This includes the `hostname`. You'll find this in the AWS Redshift console. It will start with the name of your cluster and end with `amazonaws.com`. It will also require the port (likely `5439`), the database name (likely `dev`). You'll also need the database username (likely `awsuser`) and password for the database you specified in the `CloudFormation` step.
+1. On the next page, enter the relevant Redshift details. This includes the `hostname`. You'll find this in the AWS Redshift console, or from the `terraform output` command mentioned earlier. It will start with the name of your cluster and end with `amazonaws.com`. It will also require the port (likely `5439`), the database name (likely `dev`). You'll also need the database username (likely `awsuser`) and password for the database you specified in the `Terraform` step.
 
 1. Once connection is established, choose `managed directory` and give it  a name. You can also choose Github if you have a Github repo setup for the dbt part of this project, like I have.
 
@@ -55,8 +55,6 @@ You are now in an IDE which is connected to your Redshift cluster. Here we'll ru
             description: Top comment for Reddit Post
           - name: dateposted
             description: Date Reddit Data was Downloaded
-          - name: dateexecuted
-            description: Date Reddit Post was made
     ```
 4. In the `text_posts.sql` file, copy the following. This is very simply selecting all columns, but adding a new column which is a combination of columns (this is used as part of the final analysis). Feel free to transform the data in whichever way you want. This is just a VERY basic example.
 
@@ -69,7 +67,6 @@ You are now in an IDE which is connected to your Redshift cluster. Here we'll ru
           comments,
           score,
           dateposted,
-          dateexecuted,
           (title || ' ' || comment || ' ' || text) full_text
     FROM dev.public.reddit
     ```

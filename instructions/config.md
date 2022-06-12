@@ -5,7 +5,26 @@ Next, you'll need to update the configuration file with your details. The extrac
 
 ## Setup
 
-1. Open the configuration file `~/Reddit-API-Pipeline/airflow/extraction/pipeline.conf`
+1. Create a configuration file under `~/Reddit-API-Pipeline/airflow/extraction/` called `pipeline_conf.conf`. Copy the following into it:
+
+    ```conf
+    [aws_config]
+    bucket_name = XXXXX
+    redshift_username = awsuser
+    redshift_password = XXXXX
+    redshift_hostname =  XXXXX
+    redshift_role = RedShiftLoadRole
+    redshift_port = 5439
+    redshift_database = dev
+    account_id = XXXXX
+    aws_region = XXXXX
+
+    [reddit_config]
+    secret = XXXXX
+    developer = XXXXX
+    name = XXXXX
+    client_id = XXXXX
+    ```
 
 
 1. Change `XXXXX` values

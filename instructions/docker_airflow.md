@@ -1,15 +1,18 @@
 # Docker & Airflow
 
-We're going to run our pipeline daily, for demonstration purposes, although this could be changed at a later point. Each day, we'll extract the top 10 Reddit posts for `r/DataEngineering`.
+We're going to run our pipeline daily, for demonstration purposes, although this could be changed at a later point. Each day, we'll extract the top Reddit posts for `r/DataEngineering`.
 
 ## Airflow
 
 To orchestrate this, we'll be using Apache Airflow, which allows us to define [DAGs](https://en.wikipedia.org/wiki/Directed_acyclic_graph). Although Airflow is overkill in our case, consider it good practice. It will allow us automate our extraction and loading within our pipeline.
 
+Tutorial [here](https://airflow.apache.org/docs/apache-airflow/stable/tutorial.html)
+
 ## Docker
 
 Another tool we'll use is Docker. This allows us to create and maintain 'containers'. Think of a container a bit like a special kind of virtual machine which, in our case, includes everything we need to run Airflow, bypassing the need to install a bunch of dependencies.
 
+Tutorial [here](https://www.youtube.com/watch?v=3c-iBn73dDE)
 ### Installing Docker <a name="Docker"></a>
 
 1. First install Docker. Follow the instructions [here](https://docs.docker.com/get-docker/).
@@ -37,12 +40,23 @@ To start our pipeline, we'll need to kick off Airflow which requires a couple of
      - %UserProfile%\.aws\credentials:/home/airflow/.aws/credentials:ro
     ```
 
-    * Here we are specifying a volume, so when we run our container, the folder where our AWS credentials are stored will be "synced" with a folder on our container. This will allow our Docker container to find the AWS credentials and successfully run our scripts
+    * Here we are specifying a volume, so when we run our container, the folder where our AWS credentials are stored will be "synced" with a folder on our container. This will allow our Docker container to find the AWS credentials and successfully run our scripts.
 
 1. Create our Airflow containers.
 
     ```bash
     docker-compose up
+    ```
+
+1. One containers are created, you can view them in Docker Desktop, or list them from the command line with:
+
+    ```bash
+    docker ps
+    ```
+1. You can even connect into a docker container and navigate around the filesystem if interested with:
+
+    ```bash
+    docker exec -it <CONTAINER ID> bash
     ```
 
 1. Give this a few minutes or more. Airflow should then be fully running, and you'll be able to access the Airflow Web Interface via `http://localhost:8080`. Password and username are both `airflow`.
@@ -51,13 +65,23 @@ To start our pipeline, we'll need to kick off Airflow which requires a couple of
 
     <img src="https://github.com/ABZ-Aaron/Reddit-API-Pipeline/blob/master/images/airflow.png" width=70% height=70%>
 
-1. Switch the DAG on with the button to the left of `etl_reddit_pipeline`. You can then run the DAG with the start button on the right hand side.
+1. The dag `etl_reddit_pipeline` should be set to start running automatically.
+
+1. If you want to shut down the airflow containers just run the following command from the airflow directory:
+
+    ```bash
+    docker-compose down
+    ```
 
 ## Explanation
 
 If you check in the `airflow/dags` folder, you'll find a file titled `elt_reddit_pipeline.py`. This is our DAG which you saw in Airflow's UI. 
 
-It's a very simple DAG. All it's doing is running 4 tasks, one after the other. These tasks are using `BashOperator`, meaning that they are running a bash command. Three of these tasks are running a bash command to call external Python scripts (these Python scripts exist within our docker container through the use of volumes). Read below for more details:
+In the `docker-compose.yaml` file, we've defined some volumes which I mentioned further up. You'll see that one of the lines is syncing the `dags` folder we have locally with one on the container when the container is created via `docker-compose up`.
+
+It's a very simple DAG. All it's doing is running 3 tasks, one after the other. These tasks are using `BashOperator`, meaning that they are running a bash command. The tasks here are running a bash command to call external Python scripts (these Python scripts also exist within our docker container through the use of volumes). You'll find them under the `extraction` folder. 
+
+Read below for more details:
 
 1. `extract_reddit_data_task`
 

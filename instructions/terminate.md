@@ -11,17 +11,16 @@ If you want to keep your pipeline running, you may be best to re-create it witho
 To terminate your resources, follow the below steps:
 
 
-1. Terminate your Redshift Cluster by running the following cloudformation command. 
+1. Terminate your Redshift Cluster by running the following Terraform command under the terraform directory:
 
     ```bash
-    aws cloudformation delete-stack --stack-name myredshiftstack  
+    terraform destroy
     ```
 
-    If you had issues with CloudFormation, you can instead navigate to the Redshift in the AWS Console and delete the cluster from there (be sure you have the correct region set on the top right of the UI).
+    You can then check in the AWS console that Terraform has done it's job of deleting all the resources we created.
 
-    If CloudFormation is working fine for you, it's still best to double check in AWS UI that the cluster is gone.
 
-2. Manually delete the S3 Bucket and contents. You can do this via the AWS UI in the S3 Console. Again, check the region is correct, otherwise it may appear as though you have no S3 bucket.
+
 
 3. Terminate your Docker Containers. To do so, navigate to the `airflow` directory you first ran `docker-compose up` and run the following:
 
@@ -29,7 +28,7 @@ To terminate your resources, follow the below steps:
     docker-compose down
     ```
 
-3. Delete your DBT account if necessary.
+3. Delete your DBT account if you wish.
 
 ---
 
