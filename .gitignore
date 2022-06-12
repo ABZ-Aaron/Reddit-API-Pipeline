@@ -12,3 +12,4 @@ airflow/extraction/pipeline_secret.conf
 terraform/*
 !*.tf
 *.conf
+.DS_Store
