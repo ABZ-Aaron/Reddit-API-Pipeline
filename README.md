@@ -39,7 +39,7 @@ First clone the repository into your home directory and follow the steps.
   cd Reddit-API-Pipeline
   ```
 
-1. [Overview](instructions/overvie.md)
+1. [Overview](instructions/overview.md)
 1. [Reddit API Configuration](instructions/reddit.md)
 1. [AWS Account](instructions/aws.md)
 1. [Infrastructure with Terraform](instructions/setup_infrastructure.md)
