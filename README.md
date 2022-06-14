@@ -1,4 +1,4 @@
-# Reddit ELT Pipeline
+# Reddit ETL Pipeline
 
 A data pipeline to extract Reddit data from [r/dataengineering](https://www.reddit.com/r/dataengineering/). 
 
