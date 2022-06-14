@@ -2,17 +2,11 @@
 
 dbt (data build tool) is a transformation tools that sits on top of our data warehouse.
 
-We don't actually require any real transformation on our data; however, like before, consider this good practice.
+We don't actually require any real transformation on our data; however, like before, consider this good practice. However, there is a bit of setup required here, so feel free to skip this if you just want to see your Redshift data in Google Data Studio.
 
-In production, this could be used to create multiple different tables with different columns. Data scientists might be given access to one table, and data analysts the other, as an example.
+In production, this could be used to create multiple different tables with different columns. Data scientists might be given access to one table, and data analysts the other, as an example. dbt would be able to run tests when creating these new tables, produce documentation for analysts to examine, and so forth.
 
-We'll just use dbt to run some basic transformations on our data, creating a new table within a different schema.
-
-dbt would be able to run tests when creating these new tables, produce documentation for analysts to examine, and so forth.
-
-There's a bit of setup required here, and you're free to skip this if you just want to see your Redshift data in PowerBI.
-
-If you continue, I'd recommend taking a quick look at some dbt [tutorials](https://docs.getdbt.com/docs/dbt-cloud/cloud-quickstart). I'll only go through the steps to setup a transformation here.
+If you continue, I'd recommend taking a quick look at some dbt [tutorials](https://docs.getdbt.com/docs/dbt-cloud/cloud-quickstart). I'll only go through some basic steps to setup a transformation here.
 
 For reference, here's a [link](https://github.com/ABZ-Aaron/Reddit-API-Pipeline-DBT) to the repo I set up for dbt.
 
