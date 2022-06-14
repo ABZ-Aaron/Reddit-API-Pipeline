@@ -6,7 +6,7 @@ from validation import validate_input
 from psycopg2 import sql
 
 """
-Upload S3 CSV data to Redshift. Takes one argument of format YYYYMMDD. This is the name of 
+Part of DAG. Upload S3 CSV data to Redshift. Takes one argument of format YYYYMMDD. This is the name of 
 the file to copy from S3. Script will load data into temporary table in Redshift, delete 
 records with the same post ID from main table, then insert these from temp table (along with new data) 
 to main table. This means that if we somehow pick up duplicate records in a new DAG run,
