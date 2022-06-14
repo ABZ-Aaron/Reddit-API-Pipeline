@@ -14,7 +14,7 @@ provider "aws" {
     region = var.aws_region
 }
 
-# Configure redshift cluster
+# Configure redshift cluster. This will fall under free tier as of June 2022.
 resource "aws_redshift_cluster" "redshift" {
   cluster_identifier = "redshift-cluster-pipeline"
   skip_final_snapshot = true # must be set so we can destroy redshift with terraform destroy
@@ -28,7 +28,7 @@ resource "aws_redshift_cluster" "redshift" {
   
 }
 
-
+# Confuge security group for Redshift allowing all inbound/outbound traffic
  resource "aws_security_group" "sg_redshift" {
   name        = "sg_redshift"
   ingress {
@@ -64,7 +64,7 @@ resource "aws_iam_role" "redshift_role" {
   })
 }
 
-# Create bucket
+# Create S3 bucket
 resource "aws_s3_bucket" "reddit_bucket" {
   bucket = var.s3_bucket
   force_destroy = true # will delete contents of bucket when we run terraform destroy
