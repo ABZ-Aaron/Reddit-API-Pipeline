@@ -30,7 +30,11 @@ It also provided a good opportunity to develop skills and experience in a range 
 
 ## Setup
 
-Follow below steps to setup pipeline. Feel free to make improvements/changes. As AWS offer a free tier, this shouldn't cost you anything unless you amend the pipeline to extract large amounts of data, or keep infrastructure running for 2+ months.
+Follow below steps to setup pipeline. Feel free to make improvements/changes. 
+
+> **NOTE**: This was developed using an M1 Macbook Pro. If you're on Windows or Linux, you may need to amend certain components if issues are encountered.
+
+As AWS offer a free tier, this shouldn't cost you anything unless you amend the pipeline to extract large amounts of data, or keep infrastructure running for 2+ months.
 
 First clone the repository into your home directory and follow the steps.
 

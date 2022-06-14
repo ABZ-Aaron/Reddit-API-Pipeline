@@ -21,15 +21,10 @@ Tutorial [here](https://www.youtube.com/watch?v=3c-iBn73dDE)
 
 ### Running Airflow <a name="Airflow"></a>
 
-To start our pipeline, we'll need to kick off Airflow which requires a couple of prerequisite steps. Note that `docker-compose airflow init` below will take a while to run. 
 
-1. Create `.env` file and initialise the airflow database. See [here](https://airflow.apache.org/docs/apache-airflow/stable/start/docker.html) for more details if interested.
 
-    ```bash
-    cd ~/Reddit-API-Pipeline/airflow
-    echo -e "AIRFLOW_UID=$(id -u)" > .env
-    docker-compose up airflow-init
-    ```
+To start our pipeline, we'll need to kick off Airflow which requires a couple of prerequisite steps.
+
 1. If using Windows, make a small update to the `~/Reddit-API-Pipeline/airflow/docker-compose.yaml` file.
 
     ```yaml
@@ -40,9 +35,31 @@ To start our pipeline, we'll need to kick off Airflow which requires a couple of
      - %UserProfile%\.aws\credentials:/home/airflow/.aws/credentials:ro
     ```
 
-    * Here we are specifying a volume, so when we run our container, the folder where our AWS credentials are stored will be "synced" with a folder on our container. This will allow our Docker container to find the AWS credentials and successfully run our scripts.
+1. Increase CPU and Memory in Docker Desktop resource settings to whatever you think your PC can handle.
 
-1. Increase CPU and Memory in Docker Desktop settings to whatever you think your PC can handle.
+1. Run the following. You may be able to skip this step if you're not on linux. See [here](https://airflow.apache.org/docs/apache-airflow/stable/start/docker.html) for more details.
+
+    ```bash
+    cd ~/Reddit-API-Pipeline/airflow
+    
+    # Create folders required by airflow. 
+    # dags folder has already been created, and 
+    # contains the dag script utilised by Airflow
+    mkdir -p ./logs ./plugins
+
+    # This Airflow quick-start needs to know your
+    # host user id
+    echo -e "AIRFLOW_UID=$(id -u)" > .env
+    ```
+
+1. Initialise the airflow database. This will take a few minutes.
+
+    ```bash
+    docker-compose up airflow-init
+    ```
+
+
+    * Here we are specifying a volume, so when we run our container, the folder where our AWS credentials are stored will be "synced" with a folder on our container. This will allow our Docker container to find the AWS credentials and successfully run our scripts.
 
 1. Create our Airflow containers. This will take several minutes. 
 
