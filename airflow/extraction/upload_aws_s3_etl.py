@@ -6,7 +6,7 @@ import sys
 from validation import validate_input
 
 """
-Take Reddit data and upload to S3 bucket. Takes one command line argument of format YYYYMMDD. 
+Part of DAG. Take Reddit data and upload to S3 bucket. Takes one command line argument of format YYYYMMDD. 
 This represents the file downloaded from Reddit, which will be in the /tmp folder.
 """
 
