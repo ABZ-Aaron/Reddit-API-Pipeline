@@ -5,7 +5,13 @@ Next, you'll need to update the configuration file with your details. The extrac
 
 ## Setup
 
-1. Create a configuration file under `~/Reddit-API-Pipeline/airflow/extraction/` called `pipeline_conf.conf`. Copy the following into it:
+1. Create a configuration file under `~/Reddit-API-Pipeline/airflow/extraction/` called `configuration.conf`:
+
+    ```bash
+    touch ~/Reddit-API-Pipeline/airflow/extraction/configuration.conf
+    ```
+
+1. Copy the following into it:
 
     ```conf
     [aws_config]

@@ -1,6 +1,8 @@
 ## Reddit API
 
-For this project we'll be taking data from Reddit. Specifically, the `r/DataEngineering` sub.
+For this project we'll be taking data from Reddit. Specifically, the `r/DataEngineering` sub. 
+
+> Feel free to change the subreddit in the extract_reddit_etl.py script.
 
 To extract Reddit data, we need to use its Application Programming Interface ([API](https://www.mulesoft.com/resources/api/what-is-an-api)). There's a couple simple steps you'll need to follow in order to set this up.
 
@@ -14,7 +16,7 @@ To extract Reddit data, we need to use its Application Programming Interface ([A
 
 ---
 
-[Next Step](aws.md)
+[Previous Step](overview.md) | [Next Step](aws.md)
 
 or
 

@@ -2,13 +2,21 @@ import configparser
 import pathlib
 import psycopg2
 import sys
+from validation import validate_input
+from psycopg2 import sql
 
-# Full path to script
-script_path = pathlib.Path(__file__).parent.resolve()
+"""
+Upload S3 CSV data to Redshift. Takes one argument of format YYYYMMDD. This is the name of 
+the file to copy from S3. Script will load data into temporary table in Redshift, delete 
+records with the same post ID from main table, then insert these from temp table (along with new data) 
+to main table. This means that if we somehow pick up duplicate records in a new DAG run,
+the record in Redshift will be updated to reflect any changes in that record, if any (e.g. higher score or more comments).
+"""
 
 # Parse our configuration file
+script_path = pathlib.Path(__file__).parent.resolve()
 parser = configparser.ConfigParser()
-parser.read(f"{script_path}/pipeline_conf.conf")
+parser.read(f"{script_path}/configuration.conf")
 
 # Store our configuration variables
 USERNAME = parser.get("aws_config", "redshift_username")
@@ -19,50 +27,73 @@ REDSHIFT_ROLE = parser.get("aws_config", "redshift_role")
 DATABASE = parser.get("aws_config", "redshift_database")
 BUCKET_NAME = parser.get("aws_config", "bucket_name")
 ACCOUNT_ID = parser.get("aws_config", "account_id")
+TABLE_NAME = 'reddit'
 
-# Connect to our Redshift database
-rs_conn = psycopg2.connect(dbname = DATABASE, user = USERNAME, password = PASSWORD, host = HOST, port = PORT)
-
-# Used to determine the S3 file we need
-output_name = sys.argv[1]
-
-# Our S3 bucket and file
+# Check command line argument passed
+try:
+  output_name = sys.argv[1]
+except Exception as e:
+  print(f"Command line argument not passed. Error {e}")
+  sys.exit(1)
+ 
+# Our S3 file & role_string
 file_path = f"s3://{BUCKET_NAME}/{output_name}.csv"
-
-# Our IAM role
 role_string = f'arn:aws:iam::{ACCOUNT_ID}:role/{REDSHIFT_ROLE}'
 
 # Create Redshift table if it doesn't exist
-sql_create_table = """CREATE TABLE IF NOT EXISTS public.reddit (
-                            ID varchar PRIMARY KEY,
-                            Title varchar(max),
-                            Text varchar(max),
-                            Score int,
-                            Comments varchar(max),
-                            URL varchar(max),
-                            Comment varchar(max),
-                            DatePosted timestamp
-                        );"""
+sql_create_table = sql.SQL("""CREATE TABLE IF NOT EXISTS {table} (
+                            id varchar PRIMARY KEY,
+                            title varchar(max),
+                            num_comments int,
+                            score int,
+                            author varchar(max),
+                            created_utc timestamp,
+                            url varchar(max),
+                            upvote_ratio float,
+                            over_18 bool,
+                            edited bool,
+                            spoiler bool,
+                            stickied bool
+                        );""").format(table = sql.Identifier(TABLE_NAME))
 
-# 1. Loading our data into a temporary table. 
-# 2. Delete data from main table where ID is the same
-# 3. Insert all data from temp table into main table
-#
-# Purpose of this is that if a new day's reddit file contains the same post (same ID), we'll update our table 
-# with that one, as some columns such as Score may be different
-create_temp_table = "CREATE TEMP table reddit_stage (LIKE public.reddit);"
-sql_copy_to_temp = f"COPY reddit_stage FROM '{file_path}' iam_role '{role_string}' IGNOREHEADER 1 DELIMITER ',' CSV;"
-delete_from_table = "DELETE FROM public.reddit USING reddit_stage WHERE public.reddit.ID = reddit_stage.ID;"
-insert_into_table = "INSERT INTO public.reddit SELECT * FROM reddit_stage;"
-drop_temp_table = "DROP TABLE reddit_stage;"
+# If ID already exists in table, we remove it and add new ID record during load.
+create_temp_table = sql.SQL("CREATE TEMP TABLE our_staging_table (LIKE {table});").format(table = sql.Identifier(TABLE_NAME))
+sql_copy_to_temp = f"COPY our_staging_table FROM '{file_path}' iam_role '{role_string}' IGNOREHEADER 1 DELIMITER ',' CSV;"
+delete_from_table = sql.SQL("DELETE FROM {table} USING our_staging_table WHERE {table}.id = our_staging_table.id;").format(table = sql.Identifier(TABLE_NAME))
+insert_into_table = sql.SQL("INSERT INTO {table} SELECT * FROM our_staging_table;").format(table = sql.Identifier(TABLE_NAME))
+drop_temp_table = "DROP TABLE our_staging_table;"
 
-cur = rs_conn.cursor()
-cur.execute(sql_create_table)
-cur.execute(create_temp_table)
-cur.execute(sql_copy_to_temp)
-cur.execute(delete_from_table)
-cur.execute(insert_into_table)
-cur.execute(drop_temp_table)
-cur.close()
-rs_conn.commit()
-rs_conn.close()
+def main():
+    """Upload file form S3 to Redshift Table"""
+    validate_input(output_name)
+    rs_conn = connect_to_redshift()
+    load_data_into_redshift(rs_conn)
+
+def connect_to_redshift():
+    """Connect to Redshift instance"""
+    try:
+        rs_conn = psycopg2.connect(dbname = DATABASE, user = USERNAME, password = PASSWORD, host = HOST, port = PORT)
+        return rs_conn
+    except Exception as e:
+        print(f"Unable to connect to Redshift. Error {e}")
+        sys.exit(1)
+
+def load_data_into_redshift(rs_conn):
+    """Load data from S3 into Redshift"""
+    with rs_conn:
+
+        cur = rs_conn.cursor()
+        cur.execute(sql_create_table)
+        cur.execute(create_temp_table)
+        cur.execute(sql_copy_to_temp)
+        cur.execute(delete_from_table)
+        cur.execute(insert_into_table)
+        cur.execute(drop_temp_table)
+
+        # Commit only at the end, so we won't end up 
+        # with a temp table and deleted main table if something fails
+        rs_conn.commit()
+
+if __name__ == '__main__':
+    main()
+

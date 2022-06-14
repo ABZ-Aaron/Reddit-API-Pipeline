@@ -18,11 +18,11 @@ To get started with AWS, follow the below steps:
 
 2. Secure your account following these [steps](https://aws.amazon.com/getting-started/guides/setup-environment/module-two/). 
 
-    Here we are setting up MFA for the root user. The root is a special account that has access to everything. Therefore it's important we secure this. Also be sure to setup an IAM user which will have its own set of permissions, in this case, admin permissions.
+    Here we are setting up MFA for the root user. The root is a special account that has access to everything. Therefore it's important we secure this. Also be sure to setup an IAM user which will have its own set of permissions, in this case, admin permissions. Generally in production, you should only use the root account for tasks that can only be done with the root account. In other words, avoid using the root account when you can.
 
 3. Setup CLI following this [guide](https://aws.amazon.com/getting-started/guides/setup-environment/module-three/). 
 
-    This allows us to control AWS services from the command line interface. The goal by the end of this is you should have a folder in your home directory called `.aws` which contains a credentials file, which will look something like this:
+    This allows us to control AWS services from the command line interface. The goal by the end of this is you should have a folder in your home directory called `.aws` which contains a `credentials` file. It will look something like this:
 
     ```config
     [default]
@@ -32,11 +32,10 @@ To get started with AWS, follow the below steps:
 
     This will allow our scripts to interact with AWS without us having to include our access key and secret access key within the script.
 
-## Note
 
-One thing to always note when using AWS is the region (e.g. `us-east-1`). When accessing certain resources, you can change this on the top right of the AWS UI. If you find you're missing a redshift cluster (we'll set this up next) it may be because your region isn't set to the one redshift was setup on. Change it to the correct region and you'll see your cluster.
-
-Another thing to note, if you want to run this project fully in the cloud, you'll need to set up a virtual machine in the cloud. For AWS, this would be an [EC2](https://aws.amazon.com/ec2/instance-types/) Instance. Unfortunately, the EC2 Instance type included with the free tier is not powerful enough to run our pipeline. However, you could use a Google Cloud Virtual Machine if you wish. See [here](https://www.youtube.com/watch?v=ae-CV2KfoN0&list=PL3MmuxUbc_hJed7dXYoJw8DoCuVHhGEQb&index=12) for instructions.
+> One thing to  note when using AWS is the region (e.g. `us-east-1`). When accessing certain resources, you can change this on the top right of the AWS UI. If you find you're missing a redshift cluster (we'll set this up next) it may be because your region isn't set to the one redshift was setup on. Change it to the correct region and you'll see your cluster.
+>
+>Another thing to note, if you want to run this project fully in the cloud, you'll need to set up a virtual machine in the cloud. For AWS, this would be an [EC2](https://aws.amazon.com/ec2/instance-types/) Instance. Unfortunately, the EC2 Instance type included with the free tier is not powerful enough to run our pipeline. However, you could use a Google Cloud Virtual Machine if you wish. See [here](https://www.youtube.com/watch?v=ae-CV2KfoN0&list=PL3MmuxUbc_hJed7dXYoJw8DoCuVHhGEQb&index=12) for instructions.
 
 ---
 

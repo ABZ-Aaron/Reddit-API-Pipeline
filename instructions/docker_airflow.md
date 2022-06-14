@@ -1,6 +1,6 @@
 # Docker & Airflow
 
-We're going to run our pipeline daily, for demonstration purposes, although this could be changed at a later point. Each day, we'll extract the top Reddit posts for `r/DataEngineering`.
+We're going to run our pipeline daily, for demonstration purposes, although this could be changed at a later point. Each day, we'll extract the top Reddit posts for `r/DataEngineering`. Because we've set `LIMIT` to `None` in the Reddit extract script, it should in theory return all posts from the past 24 hours.
 
 ## Airflow
 
@@ -21,7 +21,7 @@ Tutorial [here](https://www.youtube.com/watch?v=3c-iBn73dDE)
 
 ### Running Airflow <a name="Airflow"></a>
 
-To start our pipeline, we'll need to kick off Airflow which requires a couple of prerequisite steps.
+To start our pipeline, we'll need to kick off Airflow which requires a couple of prerequisite steps. Note that `docker-compose airflow init` below will take a while to run. 
 
 1. Create `.env` file and initialise the airflow database. See [here](https://airflow.apache.org/docs/apache-airflow/stable/start/docker.html) for more details if interested.
 
@@ -42,7 +42,9 @@ To start our pipeline, we'll need to kick off Airflow which requires a couple of
 
     * Here we are specifying a volume, so when we run our container, the folder where our AWS credentials are stored will be "synced" with a folder on our container. This will allow our Docker container to find the AWS credentials and successfully run our scripts.
 
-1. Create our Airflow containers.
+1. Increase CPU and Memory in Docker Desktop settings to whatever you think your PC can handle.
+
+1. Create our Airflow containers. This will take several minutes. 
 
     ```bash
     docker-compose up
@@ -53,13 +55,13 @@ To start our pipeline, we'll need to kick off Airflow which requires a couple of
     ```bash
     docker ps
     ```
-1. You can even connect into a docker container and navigate around the filesystem if interested with:
+1. You can even connect into a docker container and navigate around the filesystem if interested:
 
     ```bash
     docker exec -it <CONTAINER ID> bash
     ```
 
-1. Give this a few minutes or more. Airflow should then be fully running, and you'll be able to access the Airflow Web Interface via `http://localhost:8080`. Password and username are both `airflow`.
+1. Give this a few minutes or more. Airflow should then be fully running, and you'll be able to access the Airflow Web Interface via `http://localhost:8080`. If nothing shows up, give it a few minutes more. Password and username are both `airflow`.
 
     Once in, you'll see something like this:
 
@@ -71,6 +73,12 @@ To start our pipeline, we'll need to kick off Airflow which requires a couple of
 
     ```bash
     docker-compose down
+    ```
+
+1. Or if you want stop and delete containers, delete volumes with database data and download images, run the following. This can be useful if you want to start from scratch:
+
+    ```bash
+    docker-compose down --volumes --rmi all
     ```
 
 ## Explanation
@@ -85,7 +93,7 @@ Read below for more details:
 
 1. `extract_reddit_data_task`
 
-    This is extracting Reddit data. Specifically, it's taking the top posts of the day from `r/DataEngineering` and collecting a few different attributes, like the top comment of each post. It's then saving this to a CSV within a temp folder.
+    This is extracting Reddit data. Specifically, it's taking the top posts of the day from `r/DataEngineering` and collecting a few different attributes, like the number of comments. It's then saving this to a CSV within the /tmp folder.
 
 1. `upload_to_s3`
 
@@ -93,11 +101,11 @@ Read below for more details:
 
 1. `copy_to_redshift`
 
-    This is creating a table in Redshift if it doesn't already exist. It's then using the `COPY` command to copy data from the newly uploaded CSV file in S3 to Redshift.
+    This is creating a table in Redshift if it doesn't already exist. It's then using the COPY command to copy data from the newly uploaded CSV file in S3 to Redshift. Read [here](https://docs.aws.amazon.com/redshift/latest/dg/r_COPY.html) for information on the COPY command.
 
 ## Note
 
-Anyone issues with Airflow & Docker, have a read through [this](https://airflow.apache.org/docs/apache-airflow/stable/start/docker.html).
+Any issues with Airflow & Docker, have a read through [this](https://airflow.apache.org/docs/apache-airflow/stable/start/docker.html).
 
 ---
 

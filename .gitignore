@@ -13,3 +13,5 @@ terraform/*
 !*.tf
 *.conf
 .DS_Store
+__pycache__
+airflow/redshift_download
