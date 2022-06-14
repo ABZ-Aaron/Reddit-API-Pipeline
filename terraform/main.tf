@@ -24,6 +24,25 @@ resource "aws_redshift_cluster" "redshift" {
   cluster_type       = "single-node"
   publicly_accessible = "true"
   iam_roles = [aws_iam_role.redshift_role.arn]
+  vpc_security_group_ids = [aws_security_group.sg_redshift.id]
+  
+}
+
+
+ resource "aws_security_group" "sg_redshift" {
+  name        = "sg_redshift"
+  ingress {
+    from_port       = 0
+    to_port         = 0
+    protocol        = "-1"
+    cidr_blocks      = ["0.0.0.0/0"]
+  }
+  egress {
+    from_port       = 0
+    to_port         = 0
+    protocol        = "-1"
+    cidr_blocks      = ["0.0.0.0/0"]
+  }
 }
 
 # Create S3 Read only access role. This is assigned to Redshift cluster so that it can read data from S3
