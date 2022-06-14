@@ -26,7 +26,7 @@ It also provided a good opportunity to develop skills and experience in a range 
 
 [<img src="https://github.com/ABZ-Aaron/Reddit-API-Pipeline/blob/master/images/GDS-Dashboard.png" width=70% height=70%>](https://datastudio.google.com/reporting/632706a4-a7d7-46df-a28d-4a24ab0e8cc4)
 
-* Final output from Google Data Studio. Link [here](https://datastudio.google.com/reporting/632706a4-a7d7-46df-a28d-4a24ab0e8cc4)
+* Final output from Google Data Studio. Link [here](https://datastudio.google.com/reporting/632706a4-a7d7-46df-a28d-4a24ab0e8cc4). Note that this Dashboard is just reading from a static CSV output from Redshift, as Redshift database was deleted so as not to incur cost.
 
 ## Setup
 
