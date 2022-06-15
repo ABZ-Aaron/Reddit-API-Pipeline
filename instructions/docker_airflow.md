@@ -34,6 +34,8 @@ To start our pipeline, we'll need to kick off Airflow which requires a couple of
     # With this...
      - %UserProfile%\.aws\credentials:/home/airflow/.aws/credentials:ro
     ```
+    
+    * Here we are specifying a volume, so when we run our container, the folder where our AWS credentials are stored will be "synced" with a folder on our container. This will allow our Docker container to find the AWS credentials and successfully run our scripts.
 
 1. Increase CPU and Memory in Docker Desktop resource settings to whatever you think your PC can handle.
 
@@ -58,16 +60,13 @@ To start our pipeline, we'll need to kick off Airflow which requires a couple of
     docker-compose up airflow-init
     ```
 
-
-    * Here we are specifying a volume, so when we run our container, the folder where our AWS credentials are stored will be "synced" with a folder on our container. This will allow our Docker container to find the AWS credentials and successfully run our scripts.
-
 1. Create our Airflow containers. This will take several minutes. 
 
     ```bash
     docker-compose up
     ```
 
-1. One containers are created, you can view them in Docker Desktop, or list them from the command line with:
+1. Once containers are created, you can view them in Docker Desktop, or list them from the command line with:
 
     ```bash
     docker ps
@@ -78,15 +77,15 @@ To start our pipeline, we'll need to kick off Airflow which requires a couple of
     docker exec -it <CONTAINER ID> bash
     ```
 
-1. Give this a few minutes or more. Airflow should then be fully running, and you'll be able to access the Airflow Web Interface via `http://localhost:8080`. If nothing shows up, give it a few minutes more. Password and username are both `airflow`.
+1. Give this a few minutes or more. Airflow should then be fully running, and you'll be able to access the Airflow Web Interface via `http://localhost:8080`. This is running within one of the Docker containers, which is mapping onto our local machine. If nothing shows up, give it a few minutes more. Password and username are both `airflow`.
 
     Once in, you'll see something like this:
 
     <img src="https://github.com/ABZ-Aaron/Reddit-API-Pipeline/blob/master/images/airflow.png" width=70% height=70%>
 
-1. The dag `etl_reddit_pipeline` should be set to start running automatically.
+1. The dag `etl_reddit_pipeline` should be set to start running automatically. It may have already finished by the time you login. The next DAG run will run at midnight.
 
-1. If you want to shut down the airflow containers just run the following command from the airflow directory:
+1. If you want to shut down the airflow containers run the following command from the airflow directory:
 
     ```bash
     docker-compose down
@@ -102,9 +101,9 @@ To start our pipeline, we'll need to kick off Airflow which requires a couple of
 
 If you check in the `airflow/dags` folder, you'll find a file titled `elt_reddit_pipeline.py`. This is our DAG which you saw in Airflow's UI. 
 
-In the `docker-compose.yaml` file, we've defined some volumes which I mentioned further up. You'll see that one of the lines is syncing the `dags` folder we have locally with one on the container when the container is created via `docker-compose up`.
+In the `docker-compose.yaml` file, we've defined some volumes which I mentioned further up. You'll see that one of the lines is syncing the `dags` folder we have locally with the Docker container when the container is created via `docker-compose up`.
 
-It's a very simple DAG. All it's doing is running 3 tasks, one after the other. These tasks are using `BashOperator`, meaning that they are running a bash command. The tasks here are running a bash command to call external Python scripts (these Python scripts also exist within our docker container through the use of volumes). You'll find them under the `extraction` folder. 
+It's a very simple DAG. All it's doing is running 3 tasks, one after the other. This DAG will run everyday at midnight. It will also run once as soon as you create the Docker containers. These tasks are using `BashOperator`, meaning that they are running a bash command. The tasks here are running a bash command to call external Python scripts (these Python scripts also exist within our docker container through the use of volumes). You'll find them under the `extraction` folder. 
 
 Read below for more details:
 
@@ -118,7 +117,7 @@ Read below for more details:
 
 1. `copy_to_redshift`
 
-    This is creating a table in Redshift if it doesn't already exist. It's then using the COPY command to copy data from the newly uploaded CSV file in S3 to Redshift. Read [here](https://docs.aws.amazon.com/redshift/latest/dg/r_COPY.html) for information on the COPY command.
+    This is creating a table in Redshift if it doesn't already exist. It's then using the COPY command to copy data from the newly uploaded CSV file in S3 to Redshift. Read [here](https://docs.aws.amazon.com/redshift/latest/dg/r_COPY.html) for information on the COPY command. 
 
 ## Note
 
