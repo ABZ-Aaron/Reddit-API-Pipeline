@@ -21,8 +21,6 @@ Tutorial [here](https://www.youtube.com/watch?v=3c-iBn73dDE)
 
 ### Running Airflow <a name="Airflow"></a>
 
-
-
 To start our pipeline, we'll need to kick off Airflow which requires a couple of prerequisite steps.
 
 1. If using Windows, make a small update to the `~/Reddit-API-Pipeline/airflow/docker-compose.yaml` file.
@@ -54,7 +52,7 @@ To start our pipeline, we'll need to kick off Airflow which requires a couple of
     echo -e "AIRFLOW_UID=$(id -u)" > .env
     ```
 
-1. Initialise the airflow database. This will take a few minutes.
+1. Initialise the airflow database. This will take a few minutes. Make sure the Docker daemon (background process) is running before doing this.
 
     ```bash
     docker-compose up airflow-init
