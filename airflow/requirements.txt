@@ -1,6 +1,0 @@
-boto3
-configparser
-pandas
-praw
-psycopg2
-pyarrow
