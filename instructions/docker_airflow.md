@@ -14,15 +14,15 @@ Another tool we'll use is Docker. This allows us to create and maintain 'contain
 
 Tutorial [here](https://www.youtube.com/watch?v=3c-iBn73dDE)
 
-### Running Airflow in Docker
+## Airflow in Docker Info
 
-For this project, I simply followed the guidelines [here](https://airflow.apache.org/docs/apache-airflow/stable/start/docker.html) and downloaded the quick-start `docker-compose.yaml`file. This defines all the services we need for Airflow (e.g. scheduler, web server, etc). 
+For this project, the `docker-compose.yaml` file comes from the Airflow in Docker quick-start guide [here](https://airflow.apache.org/docs/apache-airflow/stable/start/docker.html). This defines all the services we need for Airflow (e.g. scheduler, web server, etc). 
 
 > **NOTE:** Ths quickstart shouldn't be used in production environments.
 
-When we run this file further down, it will start our containers/services. I've only changed a few things in this file which you can see under the airflow folder.
+When we run this file further down, it will start our containers/services. I've only changed a few things in this file:
 
-* These two extra lines added under `volumes` will mount these folders on our local file system to the docker containers. You an see other volumes are defined, one being to mount the `./dags` folder (this is where we store dags we want run). The first line mounts our `extraction` folder to `/opt/airflow`, which contains the scripts our airflow DAG will run. The second line mounts our aws credentials into the docker containers as read only.
+* These two extra lines added under `volumes` will mount these folders on our local file system to the docker containers. You can see other volumes are defined, one being to mount the `./dags` folder (this is where we store dags airflow should run). The first line mounts our `extraction` folder to `/opt/airflow`, which contains the scripts our airflow DAG will run. The second line mounts our aws credentials into the docker containers as read only.
 
     ```yaml
     - ./extraction:/opt/airflow/extraction
@@ -72,7 +72,7 @@ To start our pipeline, we'll need to kick off Airflow which requires a couple of
     echo -e "AIRFLOW_UID=$(id -u)" > .env
     ```
 
-1. Initialise the airflow database. This will take a few minutes. Make sure the Docker daemon (background process) is running before doing this.
+1. Making sure you are still in the airflow directory, initialise the airflow database. This will take a few minutes. Make sure the Docker daemon (background process) is running before doing this.
 
     ```bash
     docker-compose up airflow-init
@@ -89,7 +89,7 @@ To start our pipeline, we'll need to kick off Airflow which requires a couple of
     ```bash
     docker ps
     ```
-1. You can even connect into a docker container and navigate around the filesystem if interested:
+1. You can even connect into a docker container and navigate around the filesystem:
 
     ```bash
     docker exec -it <CONTAINER ID> bash
@@ -98,15 +98,15 @@ To start our pipeline, we'll need to kick off Airflow which requires a couple of
 1. As mentioned above, navigate to `http://localhost:8080` to access the Airflow Web Interface. This is running within one of the Docker containers, which is mapping onto our local machine. If nothing shows up, give it a few minutes more. Password and username are both `airflow`. For understanding the UI, I'd recommend looking at some guides like this [one](https://airflow.apache.org/docs/apache-airflow/stable/ui.html).
 
 
-1. The dag `etl_reddit_pipeline` should be set to start running automatically (it may have already finished by the time you login). The next DAG run will run at midnight. If you click on the DAG and look under the Tree view, all the boxes should be dark green if the DAG run was successful. If there's any issues, this [resource](https://www.astronomer.io/guides/airflow-ui/) might help.
+1. The dag `etl_reddit_pipeline` should be set to start running automatically once the containers are created. It may have already finished by the time you login. This is one of the settings within the docker-compose file. The next DAG run will be at midnight. If you click on the DAG and look under the Tree view, all boxes should be dark green if the DAG run was successful. If there's any issues, this [resource](https://www.astronomer.io/guides/airflow-ui/) or the ones linked previously might help.
 
-1. If you want to shut down the airflow containers run the following command from the airflow directory:
+1. If you want to shut down the airflow containers, run the following command from the airflow directory:
 
     ```bash
     docker-compose down
     ```
 
-1. Or if you want stop and delete containers, delete volumes with database data and download images, run the following. This can be useful if you want to start from scratch:
+1. Or if you want stop and delete containers, delete volumes with database data and download images, run the following. This can be useful if you want to remove everything and start from scratch:
 
     ```bash
     docker-compose down --volumes --rmi all
