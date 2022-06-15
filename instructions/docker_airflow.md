@@ -2,8 +2,6 @@
 
 We're going to run our pipeline daily, for demonstration purposes, although this could be changed at a later point. Each day, we'll extract the top Reddit posts for `r/DataEngineering`. Because `LIMIT` is set to `None` in the Reddit extraction script, it should in theory return all posts from the past 24 hours.
 
-If you want to learn more about Airflow & Docker, have a look [here](https://airflow.apache.org/docs/apache-airflow/stable/start/docker.html).
-
 ## Airflow
 
 To orchestrate this, we'll be using Apache Airflow, which allows us to define [DAGs](https://en.wikipedia.org/wiki/Directed_acyclic_graph). Although Airflow is overkill in our case, consider it good practice. It will allow us automate our extraction and loading within our pipeline.
@@ -15,6 +13,28 @@ Tutorial [here](https://airflow.apache.org/docs/apache-airflow/stable/tutorial.h
 Another tool we'll use is Docker. This allows us to create and maintain 'containers'. Think of a container a bit like a special kind of virtual machine which, in our case, includes everything we need to run Airflow, bypassing the need to install a bunch of dependencies.
 
 Tutorial [here](https://www.youtube.com/watch?v=3c-iBn73dDE)
+
+### Running Airflow in Docker
+
+For this project, I simply followed the guidelines [here](https://airflow.apache.org/docs/apache-airflow/stable/start/docker.html) and downloaded the quick-start `docker-compose.yaml`file. This defines all the services we need for Airflow (e.g. scheduler, web server, etc). 
+
+> **NOTE:** Ths quickstart shouldn't be used in production environments.
+
+When we run this file further down, it will start our containers/services. I've only changed a few things in this file which you can see under the airflow folder.
+
+* These two extra lines added under `volumes` will mount these folders on our local file system to the docker containers. You an see other volumes are defined, one being to mount the `./dags` folder (this is where we store dags we want run). The first line mounts our `extraction` folder to `/opt/airflow`, which contains the scripts our airflow DAG will run. The second line mounts our aws credentials into the docker containers as read only.
+
+    ```yaml
+    - ./extraction:/opt/airflow/extraction
+    - $HOME/.aws/credentials:/home/airflow/.aws/credentials:ro
+    ```
+
+* This line pip installs the specified packages within the containers.
+
+    ```yaml
+    _PIP_ADDITIONAL_REQUIREMENTS: ${_PIP_ADDITIONAL_REQUIREMENTS:- praw boto3 configparser psycopg2-binary}
+    ```
+
 ### Installing Docker <a name="Docker"></a>
 
 1. First install Docker. Follow the instructions [here](https://docs.docker.com/get-docker/).
@@ -25,7 +45,7 @@ Tutorial [here](https://www.youtube.com/watch?v=3c-iBn73dDE)
 
 To start our pipeline, we'll need to kick off Airflow which requires a couple of prerequisite steps.
 
-1. If using Windows, make a small update to the `~/Reddit-API-Pipeline/airflow/docker-compose.yaml` file.
+1. If using Windows, make a small update to the `docker-compose.yaml` file.
 
     ```yaml
     # Replace this...
@@ -34,8 +54,6 @@ To start our pipeline, we'll need to kick off Airflow which requires a couple of
     # With this...
      - %UserProfile%\.aws\credentials:/home/airflow/.aws/credentials:ro
     ```
-    
-    * Here we are specifying a volume, so when we run our container, the local folder where our AWS credentials are stored will be "synced" with a folder in the created containers. This will allow our Docker containers to find the AWS credentials and successfully run our scripts.
 
 1. Increase CPU and Memory in Docker Desktop resource settings to whatever you think your PC can handle.
 
@@ -77,11 +95,8 @@ To start our pipeline, we'll need to kick off Airflow which requires a couple of
     docker exec -it <CONTAINER ID> bash
     ```
 
-1. As mentioned above, navigate to `http://localhost:8080` to access the Airflow Web Interface. This is running within one of the Docker containers, which is mapping onto our local machine. If nothing shows up, give it a few minutes more. Password and username are both `airflow`.
+1. As mentioned above, navigate to `http://localhost:8080` to access the Airflow Web Interface. This is running within one of the Docker containers, which is mapping onto our local machine. If nothing shows up, give it a few minutes more. Password and username are both `airflow`. For understanding the UI, I'd recommend looking at some guides like this [one](https://airflow.apache.org/docs/apache-airflow/stable/ui.html).
 
-    Once in, you'll see something like this:
-
-    <img src="https://github.com/ABZ-Aaron/Reddit-API-Pipeline/blob/master/images/airflow.png" width=70% height=70%>
 
 1. The dag `etl_reddit_pipeline` should be set to start running automatically (it may have already finished by the time you login). The next DAG run will run at midnight. If you click on the DAG and look under the Tree view, all the boxes should be dark green if the DAG run was successful. If there's any issues, this [resource](https://www.astronomer.io/guides/airflow-ui/) might help.
 
@@ -100,8 +115,6 @@ To start our pipeline, we'll need to kick off Airflow which requires a couple of
 ## Explanation
 
 If you check in the `airflow/dags` folder, you'll find a file titled `elt_reddit_pipeline.py`. This is our DAG which you saw in Airflow's UI. 
-
-In the `docker-compose.yaml` file, we've defined some volumes which I mentioned further up. You'll see that one of the lines is syncing the `dags` folder we have locally with the Docker container when the container is created via `docker-compose up`.
 
 It's a very simple DAG. All it's doing is running 3 tasks, one after the other. This DAG will run everyday at midnight. It will also run once as soon as you create the Docker containers. These tasks are using `BashOperator`, meaning that they are running a bash command. The tasks here are running a bash command to call external Python scripts (these Python scripts also exist within our docker container through the use of volumes). You'll find them under the `extraction` folder. 
 
