@@ -4,13 +4,13 @@ dbt (data build tool) is a transformation tools that sits on top of our data war
 
 We don't actually require any real transformation on our data; however, like before, consider this good practice. There is a bit of setup required here, so feel free to skip this if you just want to see your Redshift data in Google Data Studio.
 
-In production, this could be used to create multiple different tables with different columns. Data scientists might be given access to one table, and data analysts the other, as an example. dbt would be able to run tests when creating these new tables, produce documentation for analysts to examine, and so forth.
+In production, this could be used to create multiple different tables with different columns. Data scientists might be given access to one table, and data analysts the other, as an example. dbt would be able to run tests when creating these new tables, produce documentation for analysts to examine, help manage dependencies between models, and so forth.
 
 If you continue, I'd recommend taking a quick look at some dbt [tutorials](https://docs.getdbt.com/docs/dbt-cloud/cloud-quickstart). I'll only go through some basic steps to setup a transformation here.
 
 For reference, here's a [link](https://github.com/ABZ-Aaron/Reddit-API-Pipeline-DBT) to the seperate repo I set up for dbt.
 
-## Setup
+## Setup (development)
 
 1. Create a dbt account [here](https://www.getdbt.com/signup/).
 
@@ -140,6 +140,8 @@ SELECT * FROM <schema name>.reddit_transformed;
 ```
 
 <img src="https://github.com/ABZ-Aaron/Reddit-API-Pipeline/blob/master/images/redshift.png" width=70% height=70%>
+
+## Setup (production)
 
 When you working in your DBT development environment, this is where the models are created.
 

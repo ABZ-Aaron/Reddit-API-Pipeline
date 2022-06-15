@@ -1,6 +1,6 @@
 # AWS Infrastucture <a name="SetupsRedshift"></a>
 
-We'll use an infrastructure-as-code tool called `Terraform`. This will allow us to quickly setup our AWS resources using code. 
+We'll use an infrastructure-as-code tool called `Terraform`. This will allow us to quickly setup (and destroy) our AWS resources using code. 
 
 >Note that Terraform works with multiple cloud resources, not just AWS. 
 
@@ -22,9 +22,7 @@ We'll use Terraform to create:
 
 * **Security Group**
 
-    *This particular security group will be applied to Redshift, and will allow all incoming traffic so our dashboard can connect to it.*
-
-    > In a real production environment, it's not a good idea to allow all traffic into your resource.
+    *This particular security group will be applied to Redshift, and will allow all incoming traffic so our dashboard can connect to it. NOTE: In a real production environment, it's not a good idea to allow all traffic into your resource.
 
 ## Setup
 
@@ -42,7 +40,7 @@ We'll use Terraform to create:
 
 1. Fill in the `default` parameters.
 
-    * Specify a master DB user password for Redshift. Note that this may show up in logs and the terraform state file.
+    * Specify a master DB user password for Redshift. Note that this may show up in logs and the terraform state file. Password should contain upper and lowercase letters, as well as numbers.
 
     * Specify a bucket name. This should be unique and not violate any S3 bucket naming constraints (e.g. `<yourfullname>_reddit_bucket`).
 
@@ -56,7 +54,7 @@ We'll use Terraform to create:
     terraform init
     ```
 
-1. Run the command to create a plan based on `main.tf` and execute the planned changes to create resources in AWS:
+1. Run this command to create a plan based on `main.tf` and execute the planned changes to create resources in AWS:
 
     ```bash
     terraform apply
@@ -71,7 +69,7 @@ We'll use Terraform to create:
     ```
 
 
-> In the AWS Console, you can view your Redshift cluster, IAM Role, and S3 Bucket. You can also manually delete or customize them here and query any Redshift databases using the query editor. Just be sure to specify the correct region in the top right hand side of the AWS console.
+In the [AWS Console](https://aws.amazon.com/console/), you can now view your Redshift cluster, IAM Role, and S3 Bucket. You can also manually delete or customize them here and query any Redshift databases using the query editor. Just be sure to specify the correct region in the top right hand side of the AWS console when looking for your Redshift cluster.
 
 ---
 

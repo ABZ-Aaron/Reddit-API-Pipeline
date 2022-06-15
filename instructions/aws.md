@@ -32,11 +32,6 @@ To get started with AWS, follow the below steps:
 
     This will allow our scripts to interact with AWS without us having to include our access key and secret access key within the script.
 
-
-> One thing to  note when using AWS is the region (e.g. `us-east-1`). When accessing certain resources, you can change this on the top right of the AWS UI. If you find you're missing a redshift cluster (we'll set this up next) it may be because your region isn't set to the one redshift was setup on. Change it to the correct region and you'll see your cluster.
->
->Another thing to note, if you want to run this project fully in the cloud, you'll need to set up a virtual machine in the cloud. For AWS, this would be an [EC2](https://aws.amazon.com/ec2/instance-types/) Instance. Unfortunately, the EC2 Instance type included with the free tier is not powerful enough to run our pipeline. However, you could use a Google Cloud Virtual Machine if you wish. See [here](https://www.youtube.com/watch?v=ae-CV2KfoN0&list=PL3MmuxUbc_hJed7dXYoJw8DoCuVHhGEQb&index=12) for instructions.
-
 ---
 
 [Previous Step](reddit.md) | [Next Step](setup_infrastructure.md)

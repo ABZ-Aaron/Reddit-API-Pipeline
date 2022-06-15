@@ -1,8 +1,8 @@
 # Docker & Airflow
 
-We're going to run our pipeline daily, for demonstration purposes, although this could be changed at a later point. Each day, we'll extract the top Reddit posts for `r/DataEngineering`. Because we've set `LIMIT` to `None` in the Reddit extract script, it should in theory return all posts from the past 24 hours.
+We're going to run our pipeline daily, for demonstration purposes, although this could be changed at a later point. Each day, we'll extract the top Reddit posts for `r/DataEngineering`. Because `LIMIT` is set to `None` in the Reddit extraction script, it should in theory return all posts from the past 24 hours.
 
-We'll run Airflow with Docker using the Quick Start guide from Airflow documentation [here](https://airflow.apache.org/docs/apache-airflow/stable/start/docker.html).
+If you want to learn more about Airflow & Docker, have a look [here](https://airflow.apache.org/docs/apache-airflow/stable/start/docker.html).
 
 ## Airflow
 
@@ -35,7 +35,7 @@ To start our pipeline, we'll need to kick off Airflow which requires a couple of
      - %UserProfile%\.aws\credentials:/home/airflow/.aws/credentials:ro
     ```
     
-    * Here we are specifying a volume, so when we run our container, the folder where our AWS credentials are stored will be "synced" with a folder on our container. This will allow our Docker container to find the AWS credentials and successfully run our scripts.
+    * Here we are specifying a volume, so when we run our container, the local folder where our AWS credentials are stored will be "synced" with a folder in the created containers. This will allow our Docker containers to find the AWS credentials and successfully run our scripts.
 
 1. Increase CPU and Memory in Docker Desktop resource settings to whatever you think your PC can handle.
 
@@ -60,13 +60,13 @@ To start our pipeline, we'll need to kick off Airflow which requires a couple of
     docker-compose up airflow-init
     ```
 
-1. Create our Airflow containers. This will take several minutes. 
+1. Create our Airflow containers. This could take a while. You'll know when it's done when you get an Airflow login screen at http://localhost:8080.
 
     ```bash
     docker-compose up
     ```
 
-1. Once containers are created, you can view them in Docker Desktop, or list them from the command line with:
+1. If interested, once containers are created, you can view them in Docker Desktop, or list them from the command line with:
 
     ```bash
     docker ps
@@ -77,13 +77,13 @@ To start our pipeline, we'll need to kick off Airflow which requires a couple of
     docker exec -it <CONTAINER ID> bash
     ```
 
-1. Give this a few minutes or more. Airflow should then be fully running, and you'll be able to access the Airflow Web Interface via `http://localhost:8080`. This is running within one of the Docker containers, which is mapping onto our local machine. If nothing shows up, give it a few minutes more. Password and username are both `airflow`.
+1. As mentioned above, navigate to `http://localhost:8080` to access the Airflow Web Interface. This is running within one of the Docker containers, which is mapping onto our local machine. If nothing shows up, give it a few minutes more. Password and username are both `airflow`.
 
     Once in, you'll see something like this:
 
     <img src="https://github.com/ABZ-Aaron/Reddit-API-Pipeline/blob/master/images/airflow.png" width=70% height=70%>
 
-1. The dag `etl_reddit_pipeline` should be set to start running automatically. It may have already finished by the time you login. The next DAG run will run at midnight.
+1. The dag `etl_reddit_pipeline` should be set to start running automatically (it may have already finished by the time you login). The next DAG run will run at midnight. If you click on the DAG and look under the Tree view, all the boxes should be dark green if the DAG run was successful. If there's any issues, this [resource](https://www.astronomer.io/guides/airflow-ui/) might help.
 
 1. If you want to shut down the airflow containers run the following command from the airflow directory:
 
@@ -117,7 +117,7 @@ Read below for more details:
 
 1. `copy_to_redshift`
 
-    This is creating a table in Redshift if it doesn't already exist. It's then using the COPY command to copy data from the newly uploaded CSV file in S3 to Redshift. Read [here](https://docs.aws.amazon.com/redshift/latest/dg/r_COPY.html) for information on the COPY command. 
+    This is creating a table in Redshift if it doesn't already exist. It's then using the COPY command to copy data from the newly uploaded CSV file in S3 to Redshift. This is designed to avoid duplicate data based on post id. If the same post id is in a later DAG run load, then warehouse will be updated with that record. Read [here](https://docs.aws.amazon.com/redshift/latest/dg/r_COPY.html) for information on the COPY command. 
 
 ## Note
 

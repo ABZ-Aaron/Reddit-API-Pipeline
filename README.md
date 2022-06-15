@@ -26,7 +26,7 @@ It also provided a good opportunity to develop skills and experience in a range 
 
 [<img src="https://github.com/ABZ-Aaron/Reddit-API-Pipeline/blob/master/images/GDS-Dashboard.png" width=70% height=70%>](https://datastudio.google.com/reporting/632706a4-a7d7-46df-a28d-4a24ab0e8cc4)
 
-* Final output from Google Data Studio. Link [here](https://datastudio.google.com/reporting/632706a4-a7d7-46df-a28d-4a24ab0e8cc4). Note that this Dashboard is just reading from a static CSV output from Redshift. Redshift database was deleted so as not to incur cost.
+* Final output from Google Data Studio. Link [here](https://datastudio.google.com/reporting/632706a4-a7d7-46df-a28d-4a24ab0e8cc4). Note that Dashboard is reading from a static CSV output from Redshift. Redshift database was deleted so as not to incur cost.
 
 ## Setup
 
@@ -55,29 +55,31 @@ First clone the repository into your home directory and follow the steps.
 
 ## Improvements
 
-There are improvements that can be made here which I'll implement at a later point.
+These are some improvements that can be made which I may implement at a later point.
 
-* Improve Airflow & Docker process
+#### Setup Alerts & Notifications
 
-  Files used were pulled from online with very few changes made. These could be simplified and/or refactored with a real production environment in mind.
+  With Airflow, we can have it send emails when there has been a failure.
 
-* Improve workflow
+#### Improve Airflow & Docker process
 
-  The pipeline saves file down with naming format `YYYYMMDD`. The S3 load script finds this file and uploads to S3. The Redshift script copies file data from S3 into Redshift. It may be better to copy all existing S3 files into Redshift for each DAG run.
+  Docker/Aiflow files used were pulled from online with very few changes made. These could be simplified and/or refactored with a real production environment in mind.
 
-* Testing
+#### Testing & Validation
 
-  Unit and Integration tests could be implemented throughout the process to ensure data quality.
+  Better validation checks could be implemented to check data is correct, remove duplicates, and so forth.
 
-* Simplify Process
+#### Simplify Process
 
   The use of Airflow and dbt is overkill. Alternative ways to run this pipeline could be with Cron for orchestration and PostgreSQL or SQLite for storage.
 
-* Stream over Batch Processing
+#### Stream over Batch Processing
 
   If we want our Dashboard to always be up-to-date, we could benefit from something like Kafka.
 
+#### Optimisation
 
+Look for performance improvements, reduce code redundancy, and implement software engineering best practices. For example, consider using Parquet file format over CSV, or consider whether warehouse data could be modeled as a star schema.
 
 
 

@@ -1,7 +1,7 @@
 
 # Configuration
 
-Next, you'll need to update the configuration file with your details. The extract and load scripts will utilise the details here.
+Next, you'll need to create a configuration file with your details. The extract and load scripts in our pipeline will utilise the details here.
 
 ## Setup
 
@@ -35,7 +35,7 @@ Next, you'll need to update the configuration file with your details. The extrac
 
 1. Change `XXXXX` values
 
-    * For `aws_config` change folder into the terraform folder and run the command:
+    * If you need a reminder of your `aws_config` details, change folder back into the terraform folder and run the command:
 
 
         ```bash

@@ -22,6 +22,8 @@ You can now feel free to create some visualisations. Some tutorial/guides [here]
 
 You can then publicly share your report by navigating to Share > Manage access.
 
+### What to do once resources are terminated
+
 One thing to note... you don't want to keep your Redshift cluster up past 2 months, as it'll incur a cost once the free trial period comes to an end. You also probably don't want the Airflow Docker containers running on your local machine all the time as this will drain resources and memory.
 
 As such, your Redshift-Google Data Studio connection will eventually be broken. If you want to display a dashboard on your resume even after this happens, one option is to download your Redshift as a CSV as use this as the data source in Google Data Studio:
