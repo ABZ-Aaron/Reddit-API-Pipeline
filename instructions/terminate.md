@@ -39,7 +39,7 @@ To terminate your resources, follow the below steps:
 
 ---
 
-[Previous Step](visualisation.md)
+[Previous Step](visualisation.md) | [Next Step](improvements.md)
 
 or
 
