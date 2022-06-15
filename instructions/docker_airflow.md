@@ -98,7 +98,7 @@ To start our pipeline, we'll need to kick off Airflow which requires a couple of
 1. As mentioned above, navigate to `http://localhost:8080` to access the Airflow Web Interface. This is running within one of the Docker containers, which is mapping onto our local machine. If nothing shows up, give it a few minutes more. Password and username are both `airflow`. For understanding the UI, I'd recommend looking at some guides like this [one](https://airflow.apache.org/docs/apache-airflow/stable/ui.html).
 
 
-1. The dag `etl_reddit_pipeline` should be set to start running automatically once the containers are created. It may have already finished by the time you login. This is one of the settings within the docker-compose file. The next DAG run will be at midnight. If you click on the DAG and look under the Tree view, all boxes should be dark green if the DAG run was successful. If there's any issues, this [resource](https://www.astronomer.io/guides/airflow-ui/) or the ones linked previously might help.
+1. The dag `etl_reddit_pipeline` should be set to start running automatically once the containers are created. It may have already finished by the time you login. This option is set within the docker-compose file. The next DAG run will be at midnight. If you click on the DAG and look under the Tree view, all boxes should be dark green if the DAG run was successful. If there's any issues, this [resource](https://www.astronomer.io/guides/airflow-ui/) or the ones linked previously might help.
 
 1. If you want to shut down the airflow containers, run the following command from the airflow directory:
 
