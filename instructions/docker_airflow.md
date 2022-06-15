@@ -2,6 +2,8 @@
 
 We're going to run our pipeline daily, for demonstration purposes, although this could be changed at a later point. Each day, we'll extract the top Reddit posts for `r/DataEngineering`. Because we've set `LIMIT` to `None` in the Reddit extract script, it should in theory return all posts from the past 24 hours.
 
+We'll run Airflow with Docker using the Quick Start guide from Airflow documentation [here](https://airflow.apache.org/docs/apache-airflow/stable/start/docker.html).
+
 ## Airflow
 
 To orchestrate this, we'll be using Apache Airflow, which allows us to define [DAGs](https://en.wikipedia.org/wiki/Directed_acyclic_graph). Although Airflow is overkill in our case, consider it good practice. It will allow us automate our extraction and loading within our pipeline.
