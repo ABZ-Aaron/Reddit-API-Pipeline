@@ -26,7 +26,7 @@ CLIENT_ID = parser.get("reddit_config", "client_id")
 
 # Options for extracting data from PRAW
 SUBREDDIT = 'dataengineering'
-TIME_FILTER = "day"
+TIME_FILTER = "week"
 LIMIT = None
 
 # Fields that will be extracted from Reddit. 
