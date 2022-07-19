@@ -45,7 +45,7 @@ When we run this file further down, it will start our containers/services. I've 
 
 To start our pipeline, we'll need to kick off Airflow which requires a couple of prerequisite steps.
 
-1. If using Windows, make a small update to the `docker-compose.yaml` file.
+1. If using Windows, you may need to make a small update to the `docker-compose.yaml` file, however what's already there might work fine.
 
     ```yaml
     # Replace this...
