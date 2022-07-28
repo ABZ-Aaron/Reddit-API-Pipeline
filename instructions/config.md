@@ -11,7 +11,7 @@ Next, you'll need to create a configuration file with your details. The extract 
     touch ~/Reddit-API-Pipeline/airflow/extraction/configuration.conf
     ```
 
-1. Copy the following into it:
+1. Copy in the following:
 
     ```conf
     [aws_config]
@@ -35,13 +35,11 @@ Next, you'll need to create a configuration file with your details. The extract 
 
 1. Change `XXXXX` values
 
-    * If you need a reminder of your `aws_config` details, change folder back into the terraform folder and run the command:
-
+    * If you need a reminder of your `aws_config` details, change folder back into the terraform folder and run the command. It will output the values you need to store under `aws_config`. Just be sure to remove any `"` from the strings.
 
         ```bash
         terraform output
         ```
-        This will output the values you need to store under `aws_config`. Just be sure to remove any `"` from the strings.
         
     * For `reddit_config` these are the details you took note of after setting up your Reddit App. Note the `developer` is your Reddit name.
 

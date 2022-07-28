@@ -8,7 +8,7 @@ In production, this could be used to create multiple different tables with diffe
 
 If you continue, I'd recommend taking a quick look at some dbt [tutorials](https://docs.getdbt.com/docs/dbt-cloud/cloud-quickstart). I'll only go through some basic steps to setup a transformation here.
 
-For reference, here's a [link](https://github.com/ABZ-Aaron/Reddit-API-Pipeline-DBT) to the seperate repo I set up for dbt.
+For reference, here's a [link](https://github.com/ABZ-Aaron/Reddit-API-Pipeline-DBT) to the separate repo I set up for dbt.
 
 ## Setup (development)
 

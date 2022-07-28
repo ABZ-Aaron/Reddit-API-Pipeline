@@ -12,7 +12,7 @@ Docker/Aiflow files used were pulled from online with very few changes made. The
 
 ## Testing & Validation
 
-Better validation checks could be implemented to check data is correct, remove duplicates, and so forth.
+Better validation checks could be implemented to check data is correct, check all components of the pipeline work together and on their own, remove duplicates, and so forth.
 
 ## Simplify Process
 

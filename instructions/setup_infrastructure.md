@@ -22,7 +22,7 @@ We'll use Terraform to create:
 
 * **Security Group**
 
-    *This particular security group will be applied to Redshift, and will allow all incoming traffic so our dashboard can connect to it. NOTE: In a real production environment, it's not a good idea to allow all traffic into your resource.
+    *This particular security group will be applied to Redshift, and will allow all incoming traffic so our dashboard can connect to it. NOTE: In a real production environment, it's not a good idea to allow all traffic into your resource.*
 
 ## Setup
 
@@ -59,8 +59,6 @@ We'll use Terraform to create:
     ```bash
     terraform apply
     ```
-
-
 
 1. (optional) Run this command to terminate the resources:
 
