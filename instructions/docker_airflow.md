@@ -45,14 +45,10 @@ When we run this docker-compose file further down, it will start our containers/
 
 To start our pipeline, we need to kick off Airflow which requires a couple more prerequisite steps.
 
-1. If using Windows, you may need to make a small update to the `docker-compose.yaml` file. The following may work. Here we are mounting our aws credentials file on to a docker container.
+1. If using Windows, you may need to make a small update to the below line in the `docker-compose.yaml` file. Here we are mounting our aws credentials file on to a docker container.
 
     ```yaml
-    # Replace this...
     - $HOME/.aws/credentials:/home/airflow/.aws/credentials:ro
-
-    # With this...
-     - %UserProfile%\.aws\credentials:/home/airflow/.aws/credentials:ro
     ```
 
 1. Increase CPU and Memory in Docker Desktop resource settings to whatever you think your PC can handle.
