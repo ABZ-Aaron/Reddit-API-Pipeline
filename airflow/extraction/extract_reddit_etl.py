@@ -55,6 +55,7 @@ def main():
   transformed_data = transform_basic(extracted_data)
   load_to_csv(transformed_data)
 
+# TODO: Improve error handling
 def api_connect():
   """Connect to Reddit API"""
   try:
@@ -64,6 +65,7 @@ def api_connect():
     print(f"Unable to connect to API. Error: {e}")
     sys.exit(1)
 
+# TODO: Improve error handling
 def subreddit_posts(reddit_instance):
   """Create posts object for Reddit instance"""
   try:
@@ -74,6 +76,7 @@ def subreddit_posts(reddit_instance):
     print(f"There's been an issue. Error: {e}")
     sys.exit(1)
 
+# TODO: Improve error handling
 def extract_data(posts):
   """Extract Data to Pandas DataFrame object"""
   list_of_items = []
@@ -95,6 +98,8 @@ def transform_basic(df):
   # Convert epoch to UTC
   df['created_utc'] = pd.to_datetime(df['created_utc'],unit='s')
   # Fields don't appear to return as booleans (e.g. False or Epoch time). Needs further investigation but forcing as False or True for now.
+  # TODO: Remove all but the edited line, as not necessary. For edited line, rather than force as boolean, keep date-time of last
+  # edit and set all else to None.
   df['over_18'] = np.where((df['over_18'] == 'False') | (df['over_18'] == False), False, True).astype(bool)
   df['edited'] = np.where((df['edited'] == 'False') | (df['edited'] == False), False, True).astype(bool)
   df['spoiler'] = np.where((df['spoiler'] == 'False') | (df['spoiler'] == False), False, True).astype(bool)
