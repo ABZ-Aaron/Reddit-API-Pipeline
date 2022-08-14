@@ -22,7 +22,7 @@ PORT = parser.get("aws_config", "redshift_port")
 DATABASE = parser.get("aws_config", "redshift_database")
 TABLE_NAME = "reddit"
 
-
+# TODO Improve error handling
 def connect_to_redshift():
     """Connect to Redshift instance"""
     try:
@@ -34,7 +34,7 @@ def connect_to_redshift():
         print(f"Unable to connect to Redshift. Error {e}")
         sys.exit(1)
 
-
+# TODO Error handling
 def download_redshift_data(rs_conn):
     """Download data from Redshift table to CSV"""
     with rs_conn:

@@ -17,6 +17,7 @@ parser.read(f"{script_path}/configuration.conf")
 BUCKET_NAME = parser.get("aws_config", "bucket_name")
 AWS_REGION = parser.get("aws_config", "aws_region")
 
+# TODO Improve error handling
 try:
     output_name = sys.argv[1]
 except Exception as e:
@@ -35,7 +36,7 @@ def main():
     create_bucket_if_not_exists(conn)
     upload_file_to_s3(conn)
 
-
+# TODO Improve error handling
 def connect_to_s3():
     """Connect to S3 Instance"""
     try:
@@ -45,7 +46,7 @@ def connect_to_s3():
         print(f"Can't connect to S3. Error: {e}")
         sys.exit(1)
 
-
+# TODO Improve error handling
 def create_bucket_if_not_exists(conn):
     """Check if bucket exists and create if not"""
     exists = True

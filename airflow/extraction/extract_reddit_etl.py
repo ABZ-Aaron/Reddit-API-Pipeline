@@ -48,6 +48,7 @@ POST_FIELDS = (
     "stickied",
 )
 
+# TODO Improve error handling
 # Use command line argument as output file
 # name and also store as column value
 try:
@@ -109,15 +110,14 @@ def extract_data(posts):
 
     return extracted_data_df
 
-
+ # TODO: Remove all but the edited line, as not necessary. For edited line, rather 
+ # than force as boolean, keep date-time of last edit and set all else to None.
 def transform_basic(df):
     """Some basic transformation of data. To be refactored at a later point."""
 
     # Convert epoch to UTC
     df["created_utc"] = pd.to_datetime(df["created_utc"], unit="s")
     # Fields don't appear to return as booleans (e.g. False or Epoch time). Needs further investigation but forcing as False or True for now.
-    # TODO: Remove all but the edited line, as not necessary. For edited line, rather than force as boolean, keep date-time of last
-    # edit and set all else to None.
     df["over_18"] = np.where(
         (df["over_18"] == "False") | (df["over_18"] == False), False, True
     ).astype(bool)

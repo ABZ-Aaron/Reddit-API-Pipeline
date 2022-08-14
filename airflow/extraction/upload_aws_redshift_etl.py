@@ -29,6 +29,7 @@ BUCKET_NAME = parser.get("aws_config", "bucket_name")
 ACCOUNT_ID = parser.get("aws_config", "account_id")
 TABLE_NAME = "reddit"
 
+# TODO Improve error handling
 # Check command line argument passed
 try:
     output_name = sys.argv[1]
@@ -58,6 +59,7 @@ sql_create_table = sql.SQL(
                         );"""
 ).format(table=sql.Identifier(TABLE_NAME))
 
+# TODO Improve process. Creating a temp table may be unnecessary 
 # If ID already exists in table, we remove it and add new ID record during load.
 create_temp_table = sql.SQL(
     "CREATE TEMP TABLE our_staging_table (LIKE {table});"
@@ -78,7 +80,7 @@ def main():
     rs_conn = connect_to_redshift()
     load_data_into_redshift(rs_conn)
 
-
+# TODO Improve error handling
 def connect_to_redshift():
     """Connect to Redshift instance"""
     try:
