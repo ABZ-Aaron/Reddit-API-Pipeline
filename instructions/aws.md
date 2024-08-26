@@ -1,6 +1,6 @@
 # AWS
 
-We'll be using the cloud to store our Reddit data; specifically, Amazon Web Service (AWS) which offers a free tier.
+We'll be using the cloud to store  Reddit data; specifically, Amazon Web Service (AWS). This offers a free tier.
 
 We're going to be using 2 services:
 

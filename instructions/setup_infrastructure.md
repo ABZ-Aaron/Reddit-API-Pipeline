@@ -12,7 +12,7 @@ We'll use Terraform to create:
 
     *Redshift is a columnar data warehousing solution offered by AWS. This will be the end destination for our data.*
 
-* **IAM Role forRedshift**
+* **IAM Role for Redshift**
 
      *Role we assign to Redshift which will give it permission to read data from S3.*
 
